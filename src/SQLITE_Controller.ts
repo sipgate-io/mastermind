@@ -29,7 +29,7 @@ export class Database {
 	/**
 	 * @returns a list of all entries in the database
 	 */
-	getEntrys() {
+	getEntries() {
 		return new Promise<DatabaseEntry[]>((resolve) => {
 			this.db.all('SELECT * FROM games', (err, rows) => {
 				resolve(rows);

@@ -72,7 +72,7 @@ export class DTMF_Controller {
 		this.usersTel = '';
 		this.NUMBER_TO_CALL = numberToCall;
 		this.hangUpDetectionInterval = this.hangUpInterval(
-			this.REMINDER_AUDIO_LENGTH + 1000
+			this.REMINDER_AUDIO_LENGTH + 5000
 		);
 		this.printLogo(numberToCall);
 	}
@@ -265,7 +265,7 @@ export class DTMF_Controller {
 	 * @returns a boolean that is true if the caller has played
 	 */
 	private async callerHasPlayed(usersTel: string) {
-		const dbEntrys = await this.database.getEntrys();
+		const dbEntrys = await this.database.getEntries();
 		const pastGames = dbEntrys.filter((row) => row.usersTel === usersTel);
 		return pastGames.length > 0;
 	}

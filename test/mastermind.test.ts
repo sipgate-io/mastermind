@@ -114,7 +114,7 @@ describe('DTMF Controller', () => {
 	test('close database', async () => {
 		dtmfController['database'].closeDB();
 
-		expect(await dtmfController['database'].getEntrys()).toBe(undefined);
+		expect(await dtmfController['database'].getEntries()).toBe(undefined);
 	});
 
 	test('start game with key', async () => {
@@ -276,7 +276,7 @@ describe('DTMF Controller', () => {
 		await dtmfController.onData({ dtmf: '#' } as unknown as DataEvent);
 
 		let winningEntry: DatabaseEntry = (
-			await dtmfController['database'].getEntrys()
+			await dtmfController['database'].getEntries()
 		)[0];
 
 		expect(winningEntry).toEqual({
