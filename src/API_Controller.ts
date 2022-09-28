@@ -6,7 +6,13 @@ import { Database } from './SQLITE_Controller';
 
 dotenv.config();
 
+const token = process.env.TOKEN as string;
 const dbFileName = process.env.DB_FILE_NAME as string;
+
+if (!token) {
+	console.log('Missing TOKEN environment variable.');
+	process.exit();
+}
 
 const app = express();
 const PORT = 8080;
@@ -15,6 +21,16 @@ const DATABASE = new Database(dbFileName);
 app.use((req, res, next) => {
 	console.log(req.method, req.url);
 	next();
+});
+
+app.use((req, res, next) => {
+	const authorizationHeader = req.headers.authorization;
+	if (authorizationHeader && authorizationHeader == `Bearer ${token}`) {
+		next();
+		return;
+	}
+
+	res.status(401).send('Incorrect bearer token\n');
 });
 
 app.get('/entries', async (req, res) => {
