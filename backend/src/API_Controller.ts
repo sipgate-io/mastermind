@@ -3,6 +3,7 @@ import * as dotenv from 'dotenv';
 import express from 'express';
 import { DatabaseEntry } from './DTMF_Controller';
 import { Database } from './SQLITE_Controller';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -15,13 +16,15 @@ if (!token) {
 }
 
 const app = express();
-const PORT = 8080;
+const PORT = 3002;
 const DATABASE = new Database(dbFileName);
 
 app.use((req, res, next) => {
 	console.log(req.method, req.url);
 	next();
 });
+
+app.use(cors({}));
 
 app.use((req, res, next) => {
 	const authorizationHeader = req.headers.authorization;
@@ -33,13 +36,13 @@ app.use((req, res, next) => {
 	res.status(401).send('Incorrect bearer token\n');
 });
 
-app.get('/entries', async (req, res) => {
+app.get('/ranking', async (req, res) => {
 	const entries = await DATABASE.getEntries();
 
 	res.status(200).json(entries.sort(sortEntries));
 });
 
-app.get('/rank/:number', async (req, res) => {
+app.get('/ranking/:number', async (req, res) => {
 	const tel = req.params.number;
 
 	if (tel.match(/^\+[1-9]\d{1,14}$/g)) {
