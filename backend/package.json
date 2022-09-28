@@ -7,7 +7,7 @@
 		"build": "tsc",
 		"test": "jest --coverage",
 		"start": "node build/Game.js",
-		"prepare": "cd .. && husky install backend/.husky"
+		"preinstall": "git config core.hooksPath .git-hooks"
 	},
 	"keywords": [],
 	"author": "",
