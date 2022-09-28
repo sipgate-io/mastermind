@@ -26,13 +26,16 @@ app.get('/entries', async (req, res) => {
 app.get('/rank/:number', async (req, res) => {
 	const tel = req.params.number;
 
-	var entries = await DATABASE.getEntries();
+	if (tel.match(/^\+[1-9]\d{1,14}$/g)) {
+		return res.status(400).send('Number does not match E.164 format');
+	}
+
+	const entries = await DATABASE.getEntries();
 
 	const targetEntry = entries.find((x) => x.usersTel == tel);
 
 	if (!targetEntry) {
-		res.status(404).send();
-		return;
+		return res.status(404).send('Number not found.');
 	}
 
 	res.status(200).json({
