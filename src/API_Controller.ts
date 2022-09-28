@@ -70,7 +70,7 @@ app.post('/', (req, res) => {
 		});
 	}
 
-	res.status(200).send();
+	res.status(201).send();
 });
 
 app.listen(PORT, () => {
