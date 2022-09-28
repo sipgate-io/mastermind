@@ -15,9 +15,9 @@ import { DataEvent, NewCallEvent, WebhookResponse } from 'sipgateio';
 import { GatherOptions } from 'sipgateio/dist/webhook';
 
 const WELCOME_AUDIO_URL =
-	'https://raw.githubusercontent.com/sipgate-io/mastermind/master/assets/welcome_message.wav';
+	'https://raw.githubusercontent.com/sipgate-io/mastermind/master/backend/assets/welcome_message.wav';
 const PING_AUDIO_URL =
-	'https://raw.githubusercontent.com/sipgate-io/mastermind/master/assets/ping.wav';
+	'https://raw.githubusercontent.com/sipgate-io/mastermind/master/backend/assets/ping.wav';
 
 /**
  * Represents an entry in the database.

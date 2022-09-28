@@ -6,11 +6,11 @@ import { Database } from './SQLITE_Controller';
 
 dotenv.config();
 
-const token = process.env.TOKEN as string;
+const token = process.env.API_TOKEN as string;
 const dbFileName = process.env.DB_FILE_NAME as string;
 
 if (!token) {
-	console.log('Missing TOKEN environment variable.');
+	console.log('Missing API_TOKEN environment variable.');
 	process.exit();
 }
 
