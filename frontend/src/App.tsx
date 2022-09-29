@@ -6,7 +6,7 @@ import Confetti from "react-confetti";
 
 type State<T> =
   | { state: "pending" }
-  | { state: "error"; error: unknown }
+  | { state: "error"; error: Error }
   | { state: "finished"; value: T };
 
 function App() {
@@ -47,7 +47,9 @@ function App() {
 
       <ul>
         {ranking.state === "pending" && <p>Spinning...</p>}
-        {ranking.state === "error" && <p>{`Error: ${ranking.error}`}</p>}
+        {ranking.state === "error" && (
+          <p>{`Error: ${ranking.error.message}`}</p>
+        )}
         {ranking.state === "finished" &&
           ranking.value.map((ranking, index) => (
             <li key={index}>
