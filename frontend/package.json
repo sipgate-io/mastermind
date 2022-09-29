@@ -6,6 +6,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
+    "test:frontend": "react-scripts test --watchAll=false App.test.tsx",
+    "test:integration": "react-scripts test --watchAll=false integration.test.tsx",
     "eject": "react-scripts eject",
     "preinstall": "git config core.hooksPath .git-hooks"
   },
