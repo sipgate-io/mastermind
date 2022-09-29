@@ -46,7 +46,6 @@ function App() {
       <h1>Rankings</h1>
 
       <ul>
-        {ranking.state === "pending" && <p>Spinning...</p>}
         {ranking.state === "error" && (
           <p>{`Error: ${ranking.error.message}`}</p>
         )}
