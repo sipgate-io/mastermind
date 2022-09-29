@@ -1,6 +1,6 @@
 const BASE_URL = "http://localhost:3002";
 // TODO: read token from... somewhere?
-const TOKEN = "";
+const TOKEN = "123456789";
 
 export type Ranking = {
   usersTel: string;

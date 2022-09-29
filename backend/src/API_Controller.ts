@@ -4,6 +4,7 @@ import express from 'express';
 import { DatabaseEntry } from './DTMF_Controller';
 import { Database } from './SQLITE_Controller';
 import cors from 'cors';
+import { bold } from 'colorette';
 
 dotenv.config();
 
@@ -39,7 +40,12 @@ app.use((req, res, next) => {
 app.get('/ranking', async (req, res) => {
 	const entries = await DATABASE.getEntries();
 
-	res.status(200).json(entries.sort(sortEntries));
+	const anonymizedEntries = entries.map((entry) => ({
+		...entry,
+		usersTel: anonymizePhone(entry.usersTel),
+	}));
+
+	res.status(200).json(anonymizedEntries.sort(sortEntries));
 });
 
 app.get('/ranking/:number', async (req, res) => {
@@ -66,7 +72,7 @@ app.get('/ranking/:number', async (req, res) => {
 app.post('/', (req, res) => {
 	for (let i = 0; i < 100; i++) {
 		DATABASE.addEntry({
-			usersTel: randomInt(10).toString(),
+			usersTel: '+49157' + randomInt(1000000) + 1,
 			duration: randomInt(100),
 			tries: randomInt(10) + 1,
 			hasWon: randomInt(2),
@@ -94,4 +100,8 @@ function sortEntries(a: DatabaseEntry, b: DatabaseEntry) {
 	// Einer hat gewonnen
 	if (a.hasWon) return -1;
 	return 1;
+}
+function anonymizePhone(number: string) {
+	let publicDigits = number.substring(number.length - 4);
+	return `+xx xxxx xxxx${publicDigits}`;
 }
