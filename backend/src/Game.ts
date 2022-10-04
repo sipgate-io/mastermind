@@ -13,7 +13,7 @@ dotenv.config();
 
 // prompt the user to press Enter and block until the Enter key has been pressed
 function waitForEnter() {
-	console.log('Drücke Enter wenn das Softphone bereit bist.');
+	console.log('Drücke Enter wenn das Softphone bereit ist.');
 
 	let _inputBuffer = Buffer.alloc(1);
 	fs.readSync(0, _inputBuffer, 0, 1, null);

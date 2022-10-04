@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start >/dev/null & (cd ../backend && (npm run start & node build/API_Controller.js >/dev/null))",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
     "test:frontend": "react-scripts test --watchAll=false App.test.tsx",
