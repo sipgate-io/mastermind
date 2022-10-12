@@ -4,11 +4,11 @@ import "./App.css";
 import { IMessageEvent, w3cwebsocket as W3CWebSocket } from "websocket";
 //import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from "react-confetti";
-
-type State<T> =
-  | { state: "pending" }
-  | { state: "error"; error: Error }
-  | { state: "finished"; value: T };
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import IntroductionView from "./Views/IntroductionView";
+import HighscoreView from "./Views/HighscoreView";
+import ConsentView from "./Views/ConsentView";
+import MastermindView from "./Views/MastermindView";
 
 const client = new W3CWebSocket("ws://localhost:8000/");
 
@@ -23,57 +23,26 @@ function App() {
     console.log("Connection Error");
   };
 
-  const [ranking, setRanking] = useState<State<Ranking[]>>({
-    state: "pending",
-  });
-  //const { width, height } = useWindowSize()
-  useEffect(() => {
-    getRankings()
-      .then((value) => setRanking({ state: "finished", value }))
-      .catch((error) => setRanking({ state: "error", error }));
-  }, []);
-
-  const [confettiActive, setConfettiActive] = useState(false);
-
   return (
     <div>
-      <button
-        onClick={() => {
-          setConfettiActive(true);
-        }}
-      >
-        Game Finish
-      </button>
-
-      {confettiActive ? (
-        <Confetti
-          numberOfPieces={1000}
-          gravity={0.3}
-          recycle={false}
-          onConfettiComplete={() => {
-            setConfettiActive(false);
-          }}
-        />
-      ) : null}
-
-      <h1>Rankings</h1>
-
-      <ul>
-        {ranking.state === "error" && (
-          <p>{`Error: ${ranking.error.message}`}</p>
-        )}
-        {ranking.state === "finished" &&
-          ranking.value.map((ranking, index) => (
-            <li key={index}>
-              <div>
-                <span>{index + 1}.</span>
-                <span style={{ marginLeft: "1rem" }}>
-                  {`${ranking.usersTel} benötigte ${ranking.tries} Versuche und hat ${ranking.duration} gebraucht.`}
-                </span>
-              </div>
-            </li>
-          ))}
-      </ul>
+      <div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<IntroductionView />} />
+            <Route path="/consent" element={<ConsentView />} />
+            <Route path="/play" element={<MastermindView />} />
+            <Route path="/ranking" element={<HighscoreView />} />
+            <Route
+              path="*"
+              element={
+                <div className="container">
+                  <h2>404 Site not found </h2>
+                </div>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </div>
     </div>
   );
 }
