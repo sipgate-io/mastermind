@@ -1,6 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { spawn } from "child_process";
 import App from "./App";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import HighscoreView from "./Views/HighscoreView";
 
 const PATH_TO_INTEGRATION_DB = "test/mastermind_integration_test.db";
 const INTEGRATION_DB_PHONE = "6789";
@@ -24,7 +26,13 @@ test("end-to-end test works", async () => {
   });
 
   await wait(500);
-  render(<App />);
+  render(
+    <MemoryRouter initialEntries={["/ranking"]}>
+      <Routes>
+        <Route path="/ranking" element={<HighscoreView />} />
+      </Routes>
+    </MemoryRouter>
+  );
 
   await waitFor(() => {
     const linkElement = screen.getByText((text) => {

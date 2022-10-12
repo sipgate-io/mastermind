@@ -2,6 +2,8 @@ import { render, screen, waitFor } from "@testing-library/react";
 import App from "./App";
 import * as API from "./api";
 import { Ranking } from "./api";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import HighscoreView from "./Views/HighscoreView";
 
 test("renders the phone number", async () => {
   const last4Digits = "1234";
@@ -16,7 +18,15 @@ test("renders the phone number", async () => {
 
   jest.spyOn(API, "getRankings").mockReturnValue(Promise.resolve(ranking));
 
-  render(<App />);
+  render(
+    <MemoryRouter initialEntries={["/ranking"]}>
+      <Routes>
+        <Route path="/ranking" element={<HighscoreView />}>
+          <Route path="/ranking" element={<HighscoreView />} />
+        </Route>
+      </Routes>
+    </MemoryRouter>
+  );
   await waitFor(() => {
     const linkElement = screen.getByText((text) => {
       return text.includes(last4Digits);
@@ -31,7 +41,15 @@ test("renders an error when getRankings fails", async () => {
     .spyOn(API, "getRankings")
     .mockReturnValue(Promise.reject(new Error(errMessage)));
 
-  render(<App />);
+  render(
+    <MemoryRouter initialEntries={["/ranking"]}>
+      <Routes>
+        <Route path="/ranking" element={<HighscoreView />}>
+          <Route path="/ranking" element={<HighscoreView />} />
+        </Route>
+      </Routes>
+    </MemoryRouter>
+  );
   await waitFor(() => {
     const linkElement = screen.getByText(`Error: ${errMessage}`);
     expect(linkElement).toBeInTheDocument();
