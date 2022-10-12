@@ -7,6 +7,7 @@ import * as ngrok from 'ngrok';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 import { DTMF_Controller } from './DTMF_Controller';
+import { runWebsocket } from './Websocket_Controller';
 
 // load the .env file as environment variables
 dotenv.config();
@@ -50,6 +51,8 @@ if (
 		'Bitte starte das Softphone für die Nummer ' + numberToCall + '.'
 	);
 	waitForEnter();
+
+	runWebsocket();
 
 	await startDTMF(numberToCall, parseInt(portString), serverAddress);
 })();

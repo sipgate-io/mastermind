@@ -13,6 +13,7 @@ import {
 import { Database } from './SQLITE_Controller';
 import { DataEvent, NewCallEvent, WebhookResponse } from 'sipgateio';
 import { GatherOptions } from 'sipgateio/dist/webhook';
+import { buildMessageJson, sendMessage } from './Websocket_Controller';
 
 const WELCOME_AUDIO_URL =
 	'https://raw.githubusercontent.com/sipgate-io/mastermind/master/backend/assets/welcome_message.wav';
@@ -114,6 +115,7 @@ export class DTMF_Controller {
 	 * @returns a Promise that resolves to a WebhookResponse after the handler has finished
 	 */
 	onData(data: DataEvent) {
+		sendMessage(buildMessageJson('test', data.dtmf));
 		this.lastDTMFEvent = Date.now();
 
 		// a -1 indicates, that the player has hung up while an announcement was playing

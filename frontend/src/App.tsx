@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getRankings, Ranking } from "./api";
 import "./App.css";
+import { IMessageEvent, w3cwebsocket as W3CWebSocket } from "websocket";
 //import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from "react-confetti";
 
@@ -9,7 +10,19 @@ type State<T> =
   | { state: "error"; error: Error }
   | { state: "finished"; value: T };
 
+const client = new W3CWebSocket("ws://localhost:8000/");
+
 function App() {
+  client.onopen = () => {
+    console.log("WebSocket Client Connected");
+  };
+  client.onmessage = (message: IMessageEvent) => {
+    console.log(message);
+  };
+  client.onerror = function () {
+    console.log("Connection Error");
+  };
+
   const [ranking, setRanking] = useState<State<Ranking[]>>({
     state: "pending",
   });
