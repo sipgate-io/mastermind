@@ -1,6 +1,6 @@
 const BASE_URL = "http://localhost:3002";
 // TODO: read token from... somewhere?
-const TOKEN = "123456789";
+const TOKEN = "abcdef123";
 
 export type Ranking = {
   usersTel: string;
@@ -20,4 +20,16 @@ export async function getRankings(): Promise<Ranking[]> {
 
   const rankings: Ranking[] = await rankingResponse.json();
   return rankings;
+}
+
+export async function getNumberToCall(): Promise<string> {
+  const response = await fetch(`${BASE_URL}/getNumberToCall`, {
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
+  });
+  if (!response.ok)
+    throw new Error(`failed to get numberToCall: ${response.statusText}`);
+
+  return await response.text();
 }

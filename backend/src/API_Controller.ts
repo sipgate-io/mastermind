@@ -10,6 +10,7 @@ dotenv.config();
 
 const token = process.env.API_TOKEN as string;
 const dbFileName = process.env.DB_FILE_NAME as string;
+const numberToCall = process.env.NUMBER_TO_CALL as string;
 
 if (!token) {
 	console.log('Missing API_TOKEN environment variable.');
@@ -80,6 +81,10 @@ app.post('/', (req, res) => {
 	}
 
 	res.status(201).send();
+});
+
+app.get('/getNumberToCall', (req, res) => {
+	res.status(200).send(numberToCall);
 });
 
 app.listen(PORT, () => {
