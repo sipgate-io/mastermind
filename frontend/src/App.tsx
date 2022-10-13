@@ -13,16 +13,23 @@ import MastermindView from "./Views/MastermindView";
 const client = new W3CWebSocket("ws://localhost:8000/");
 
 function App() {
+  const [gameData, setGameData] = useState({});
+
   client.onopen = () => {
     console.log("WebSocket Client Connected");
   };
   client.onmessage = (message: IMessageEvent) => {
-    console.log(message);
+    if (typeof message.data === "string") {
+      const data = JSON.parse(message.data);
+
+      if (data.type === "gameData") {
+        setGameData(JSON.parse(data.message));
+      }
+    }
   };
   client.onerror = function () {
     console.log("Connection Error");
   };
-
   return (
     <div>
       <div>
@@ -30,7 +37,10 @@ function App() {
           <Routes>
             <Route path="/" element={<IntroductionView />} />
             <Route path="/consent" element={<ConsentView />} />
-            <Route path="/play" element={<MastermindView />} />
+            <Route
+              path="/play"
+              element={<MastermindView gameData={gameData} />}
+            />
             <Route path="/ranking" element={<HighscoreView />} />
             <Route
               path="*"
