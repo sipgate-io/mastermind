@@ -25,6 +25,15 @@ function App() {
       if (data.type === "gameData") {
         setGameData(JSON.parse(data.message));
       }
+      if (data.type === "newCall") {
+        window.location.href = "/consent";
+      }
+      if (data.type === "consentAccepted") {
+        window.location.href = "/play";
+      }
+      if (data.type === "userHungUp") {
+        window.location.href = "/ranking";
+      }
     }
   };
   client.onerror = function () {
