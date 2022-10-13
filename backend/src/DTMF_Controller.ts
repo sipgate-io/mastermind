@@ -144,7 +144,13 @@ export class DTMF_Controller {
 		console.clear();
 		console.log(CALLING_NUMBER(this.usersTel));
 		console.log(SHORT_EXPLANATION_TEXT);
-		this.mastermind.printMastermind();
+
+		sendMessage(
+			buildMessageJson(
+				'gameData',
+				JSON.stringify(this.mastermind.printMastermind())
+			)
+		);
 
 		// save the result and hang up the call when the game is finished
 		if (this.mastermind.isGameFinished()) {

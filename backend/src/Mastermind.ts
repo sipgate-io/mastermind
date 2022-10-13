@@ -100,8 +100,7 @@ export class Mastermind {
 	}
 
 	private compareWithGoal(guess: MastermindGuess) {
-
-		//In a goal duplicate digits are NOT allowed, which is why we don't consider them 
+		//In a goal duplicate digits are NOT allowed, which is why we don't consider them
 
 		let rightNumberRightPlace = 0;
 		let rightNumberWrongPlace = 0;
@@ -230,6 +229,16 @@ export class Mastermind {
 		}
 
 		console.log(this.errorMessage);
+
+		return {
+			mastermindHeight: this.mastermindHeight,
+			mastermindWidth: this.mastermindWidth,
+			currentRow: this.currentRow,
+			pastGuesses: this.pastGuesses,
+			gameResult: this.gameResult,
+			errorMessage: this.errorMessage,
+			pointer: this.pointer,
+		};
 	}
 
 	private printCurrentRow() {

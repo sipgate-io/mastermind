@@ -1,0 +1,2 @@
+#!/bin/sh
+$HOME/.git-team/hooks/prepare-commit-msg "$@"
