@@ -46,7 +46,8 @@ app.get('/ranking', async (req, res) => {
 		usersTel: anonymizePhone(entry.usersTel),
 	}));
 
-	res.status(200).json(anonymizedEntries.sort(sortEntries));
+	// res.status(200).json(anonymizedEntries.sort(sortEntries));
+	res.status(200).json(anonymizedEntries);
 });
 
 app.get('/ranking/:number', async (req, res) => {

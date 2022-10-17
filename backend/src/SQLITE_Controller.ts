@@ -31,7 +31,7 @@ export class Database {
 	 */
 	getEntries() {
 		return new Promise<DatabaseEntry[]>((resolve) => {
-			this.db.all('SELECT * FROM games WHERE hasWon = 1', (err, rows) => {
+			this.db.all('SELECT * FROM games WHERE hasWon = 1 ORDER BY tries ASC, duration ASC', (err, rows) => {
 				resolve(rows);
 			});
 		});

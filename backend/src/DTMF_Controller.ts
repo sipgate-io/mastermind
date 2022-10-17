@@ -210,7 +210,7 @@ export class DTMF_Controller {
 	/**
 	 * Save the GameResult in the database and reset the controller to accept a new call.
 	 */
-	private finishGame() {
+	private async finishGame() {
 		const result = this.mastermind.getGameResult();
 		this.database.addEntry({
 			usersTel: this.usersTel,
@@ -218,6 +218,28 @@ export class DTMF_Controller {
 			tries: result.tries,
 			hasWon: result.isWon ? 1 : 0,
 		});
+
+		const entries = await this.database.getEntries();
+		let position = -1;
+
+		for (let i = 0; i < entries.length; i++) {
+			if (entries[i].usersTel === this.usersTel) {
+				position = i + 1;
+				break;
+			}
+		}
+
+		sendMessage(
+			buildMessageJson(
+				'gameFinished',
+				JSON.stringify({
+					tries: result.tries,
+					duration: result.duration,
+					hasWon: result.isWon,
+					position: position
+				})
+			)
+		);
 
 		this.isCalling = false;
 		this.isPlaying = false;
