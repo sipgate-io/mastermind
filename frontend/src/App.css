@@ -1,3 +1,16 @@
 .active{
     border:1px solid red
 }
+
+.highlightRanking {
+    animation: highlightRanking 2s ease-in 1;
+}
+
+@keyframes highlightRanking {
+    0% {
+        background-color: red;
+    }
+    100% {
+        background-color: transparent;
+    }
+}

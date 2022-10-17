@@ -15,19 +15,34 @@ const millisToMinutesAndSeconds = (millis: number) => {
 }
 
 const HighscoreView = (props: {
-  rankingUpdate?: number
+  highlight?: {
+    position: number
+  }
 }) => {
   useEffect(() => {
     getRankings()
-      .then((value) => setRanking({ state: "finished", value }))
+      .then((value) => {
+        if (props.highlight) {
+          for (let i = 0; i < value.length; i++) {
+            // by setting the key to a unique value, we force React to render a new HTML component
+            // and thereby restarting the CSS animation
+            value[i].key = i === props.highlight?.position - 1 ? Date.now() : i;
+          }
+
+          value[props.highlight?.position - 1].isHighlighted = true;
+        }
+
+        setRanking({ state: "finished", value })
+      })
       .catch((error) => setRanking({ state: "error", error }));
-  }, [props.rankingUpdate]);
+  }, [props.highlight]);
 
   const [ranking, setRanking] = useState<State<Ranking[]>>({
     state: "pending",
   });
 
   const [confettiActive, setConfettiActive] = useState(false);
+
   return (
     <div>
       <button
@@ -49,7 +64,7 @@ const HighscoreView = (props: {
         />
       ) : null}
 
-      <h1>Rankings ({props.rankingUpdate})</h1>
+      <h1>Rankings</h1>
 
       <ul>
         {ranking.state === "error" && (
@@ -60,7 +75,7 @@ const HighscoreView = (props: {
             <li key={index}>
               <div>
                 <span>{index + 1}.</span>
-                <span style={{ marginLeft: "1rem" }}>
+                <span key={ranking.key} style={{ marginLeft: "1rem" }} className={ranking.isHighlighted ? "highlightRanking" : ""}>
                   {`${ranking.usersTel} benötigte ${ranking.tries} Versuche und hat ${millisToMinutesAndSeconds(ranking.duration)} gebraucht.`}
                 </span>
               </div>

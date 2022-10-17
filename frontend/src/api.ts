@@ -7,6 +7,8 @@ export type Ranking = {
   duration: number;
   tries: number;
   hasWon: number;
+  key: number;
+  isHighlighted?: boolean;
 };
 
 export async function getRankings(): Promise<Ranking[]> {

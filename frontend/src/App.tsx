@@ -14,9 +14,17 @@ const client = new W3CWebSocket("ws://localhost:8000/");
 
 function App() {
   const [gameData, setGameData] = useState({});
-  const [rankingUpdate, setRankingUpdate] = useState(0);
+  const [rowToHighlight, setRowToHightlight] = useState({ position: 1 });
 
   useEffect(() => {
+    // TODO: remove this debug function when it's no longer needed
+    // to test the ranking row highlights
+    (window as any).setPos = (pos: number) => {
+      setRowToHightlight({
+        position: pos
+      })
+    }
+
     client.onopen = () => {
       console.log("WebSocket Client Connected");
     };
@@ -38,8 +46,10 @@ function App() {
           window.location.href = "/ranking";
         }
         if (data.type === "gameFinished") {
-          console.log(data);
-          setRankingUpdate(Date.now());
+          setRowToHightlight({
+            position: JSON.parse(data.message).position
+          });
+
         }
       }
     };
@@ -60,7 +70,7 @@ function App() {
               path="/play"
               element={<MastermindView gameData={gameData} />}
             />
-            <Route path="/ranking" element={<HighscoreView rankingUpdate={rankingUpdate} />} />
+            <Route path="/ranking" element={<HighscoreView highlight={rowToHighlight} />} />
             <Route
               path="*"
               element={
