@@ -94,6 +94,8 @@ export class DTMF_Controller {
 		this.isCalling = true;
 		this.isPlaying = false;
 
+		sendMessage(buildMessageJson("newCall", ""));
+
 		clearTimeout(this.goodByeTimeout);
 
 		console.log(WELCOME_TEXT(this.usersTel));
@@ -115,7 +117,6 @@ export class DTMF_Controller {
 	 * @returns a Promise that resolves to a WebhookResponse after the handler has finished
 	 */
 	onData(data: DataEvent) {
-		sendMessage(buildMessageJson('test', data.dtmf));
 		this.lastDTMFEvent = Date.now();
 
 		// a -1 indicates, that the player has hung up while an announcement was playing
@@ -135,6 +136,8 @@ export class DTMF_Controller {
 			if (data.dtmf.length === 1 && !isAsciiZero) {
 				this.mastermind = new Mastermind();
 				this.isPlaying = true;
+
+				sendMessage(buildMessageJson("consentAccepted", ""));
 			} else {
 				// collect more DTMF events until the playes presses a key
 				return WebhookResponse.gatherDTMF(this.gatherDTMFResponse());
@@ -260,6 +263,8 @@ export class DTMF_Controller {
 	 * print a thank you message and reset the controller to accept a new call.
 	 */
 	private userHungUp() {
+		sendMessage(buildMessageJson("userHungUp", ""));
+
 		console.clear();
 		console.log(THANK_YOU);
 		this.goodBye();
