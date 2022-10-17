@@ -7,6 +7,13 @@ type State<T> =
   | { state: "error"; error: Error }
   | { state: "finished"; value: T };
 
+const millisToMinutesAndSeconds = (millis: number) => {
+  const minutes = Math.floor(millis / 60000);
+  const seconds = Math.floor((millis % 60000) / 1000);
+
+  return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
+
 const HighscoreView = (props: {
   rankingUpdate?: number
 }) => {
@@ -54,7 +61,7 @@ const HighscoreView = (props: {
               <div>
                 <span>{index + 1}.</span>
                 <span style={{ marginLeft: "1rem" }}>
-                  {`${ranking.usersTel} benötigte ${ranking.tries} Versuche und hat ${ranking.duration} gebraucht.`}
+                  {`${ranking.usersTel} benötigte ${ranking.tries} Versuche und hat ${millisToMinutesAndSeconds(ranking.duration)} gebraucht.`}
                 </span>
               </div>
             </li>
