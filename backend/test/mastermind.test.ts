@@ -12,7 +12,6 @@ import {
 	beforeEach,
 	afterEach,
 } from '@jest/globals';
-import exp from 'constants';
 import { MockInstance } from 'jest-mock';
 import { NewCallEvent, HangUpEvent, ResponseObject } from 'sipgateio';
 import { DataEvent, GatherObject, HangUpObject } from 'sipgateio/dist/webhook';
@@ -59,6 +58,7 @@ describe('DTMF Controller', () => {
 		consoleLogMock = jest
 			.spyOn(console, 'log')
 			.mockImplementation((message) => {});
+		console.log('EXECUTING');
 		const consoleClearMock = jest
 			.spyOn(console, 'clear')
 			.mockImplementation(() => {});
@@ -155,8 +155,8 @@ describe('DTMF Controller', () => {
 			from: '0123',
 		} as NewCallEvent;
 
-		const input = [1, 2, 1, 4];
-		const output = [1, 2, 4, undefined];
+		const input = [1, 2, 3, 2];
+		const output = [1, undefined, 3, 2];
 
 		await dtmfController.newCall(newCallEvent);
 		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
@@ -166,8 +166,6 @@ describe('DTMF Controller', () => {
 				dtmf: val.toString(),
 			} as unknown as DataEvent);
 		}
-
-		expect(consoleLogMock).toBeCalledWith(ERR_NO_DUPLICATES);
 
 		expect(dtmfController['mastermind']['currentRow']).toEqual(output);
 	});

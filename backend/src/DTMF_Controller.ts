@@ -94,7 +94,7 @@ export class DTMF_Controller {
 		this.isCalling = true;
 		this.isPlaying = false;
 
-		sendMessage(buildMessageJson("newCall", ""));
+		sendMessage(buildMessageJson('newCall', ''));
 
 		clearTimeout(this.goodByeTimeout);
 
@@ -137,7 +137,7 @@ export class DTMF_Controller {
 				this.mastermind = new Mastermind();
 				this.isPlaying = true;
 
-				sendMessage(buildMessageJson("consentAccepted", ""));
+				sendMessage(buildMessageJson('consentAccepted', ''));
 			} else {
 				// collect more DTMF events until the playes presses a key
 				return WebhookResponse.gatherDTMF(this.gatherDTMFResponse());
@@ -183,6 +183,7 @@ export class DTMF_Controller {
 	 * clears the internal timeout and interval
 	 */
 	quit() {
+		console.log('clearing timeout');
 		clearInterval(this.hangUpDetectionInterval);
 		clearTimeout(this.goodByeTimeout);
 	}
@@ -191,6 +192,7 @@ export class DTMF_Controller {
 	 * shows the logo after 5 seconds
 	 */
 	private goodBye() {
+		console.log('starting timeout');
 		this.goodByeTimeout = setTimeout(() => {
 			this.printLogo(this.NUMBER_TO_CALL);
 		}, 5000);
@@ -236,7 +238,7 @@ export class DTMF_Controller {
 					tries: result.tries,
 					duration: result.duration,
 					hasWon: result.isWon,
-					position: position
+					position: position,
 				})
 			)
 		);
@@ -285,7 +287,7 @@ export class DTMF_Controller {
 	 * print a thank you message and reset the controller to accept a new call.
 	 */
 	private userHungUp() {
-		sendMessage(buildMessageJson("userHungUp", ""));
+		sendMessage(buildMessageJson('userHungUp', ''));
 
 		console.clear();
 		console.log(THANK_YOU);
