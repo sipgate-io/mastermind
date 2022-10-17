@@ -7,18 +7,20 @@ type State<T> =
   | { state: "error"; error: Error }
   | { state: "finished"; value: T };
 
-const HighscoreView: FC = ({}) => {
+const HighscoreView = (props: {
+  rankingUpdate?: number
+}) => {
   useEffect(() => {
     getRankings()
       .then((value) => setRanking({ state: "finished", value }))
       .catch((error) => setRanking({ state: "error", error }));
-  }, []);
-
-  const [confettiActive, setConfettiActive] = useState(false);
+  }, [props.rankingUpdate]);
 
   const [ranking, setRanking] = useState<State<Ranking[]>>({
     state: "pending",
   });
+
+  const [confettiActive, setConfettiActive] = useState(false);
   return (
     <div>
       <button
@@ -40,7 +42,7 @@ const HighscoreView: FC = ({}) => {
         />
       ) : null}
 
-      <h1>Rankings</h1>
+      <h1>Rankings ({props.rankingUpdate})</h1>
 
       <ul>
         {ranking.state === "error" && (

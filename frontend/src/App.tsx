@@ -14,31 +14,41 @@ const client = new W3CWebSocket("ws://localhost:8000/");
 
 function App() {
   const [gameData, setGameData] = useState({});
+  const [rankingUpdate, setRankingUpdate] = useState(0);
 
-  client.onopen = () => {
-    console.log("WebSocket Client Connected");
-  };
-  client.onmessage = (message: IMessageEvent) => {
-    if (typeof message.data === "string") {
-      const data = JSON.parse(message.data);
+  useEffect(() => {
+    client.onopen = () => {
+      console.log("WebSocket Client Connected");
+    };
 
-      if (data.type === "gameData") {
-        setGameData(JSON.parse(data.message));
+    client.onmessage = (message: IMessageEvent) => {
+      if (typeof message.data === "string") {
+        const data = JSON.parse(message.data);
+
+        if (data.type === "gameData") {
+          setGameData(JSON.parse(data.message));
+        }
+        if (data.type === "newCall") {
+          window.location.href = "/consent";
+        }
+        if (data.type === "consentAccepted") {
+          window.location.href = "/play";
+        }
+        if (data.type === "userHungUp") {
+          window.location.href = "/ranking";
+        }
+        if (data.type === "gameFinished") {
+          console.log(data);
+          setRankingUpdate(Date.now());
+        }
       }
-      if (data.type === "newCall") {
-        window.location.href = "/consent";
-      }
-      if (data.type === "consentAccepted") {
-        window.location.href = "/play";
-      }
-      if (data.type === "userHungUp") {
-        window.location.href = "/ranking";
-      }
-    }
-  };
-  client.onerror = function () {
-    console.log("Connection Error");
-  };
+    };
+
+    client.onerror = function () {
+      console.log("Connection Error");
+    };
+  }, []);
+
   return (
     <div>
       <div>
@@ -50,7 +60,7 @@ function App() {
               path="/play"
               element={<MastermindView gameData={gameData} />}
             />
-            <Route path="/ranking" element={<HighscoreView />} />
+            <Route path="/ranking" element={<HighscoreView rankingUpdate={rankingUpdate} />} />
             <Route
               path="*"
               element={
