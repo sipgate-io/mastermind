@@ -20,6 +20,10 @@ const HighscoreView = (props: {
   }
 }) => {
   useEffect(() => {
+    if (props.highlight && props.highlight?.position <= 3) {
+      setConfettiActive(true);
+    }
+
     getRankings()
       .then((value) => {
         if (props.highlight) {
@@ -45,14 +49,6 @@ const HighscoreView = (props: {
 
   return (
     <div>
-      <button
-        onClick={() => {
-          setConfettiActive(true);
-        }}
-      >
-        Game Finish
-      </button>
-
       {confettiActive ? (
         <Confetti
           numberOfPieces={1000}
