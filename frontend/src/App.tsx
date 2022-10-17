@@ -14,7 +14,7 @@ const client = new W3CWebSocket("ws://localhost:8000/");
 
 function App() {
   const [gameData, setGameData] = useState({});
-  const [rowToHighlight, setRowToHightlight] = useState({ position: 1 });
+  const [rowToHighlight, setRowToHightlight] = useState<{ position: number } | undefined>(undefined);
 
   useEffect(() => {
     // TODO: remove this debug function when it's no longer needed
