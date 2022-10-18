@@ -1,0 +1,68 @@
+:root{
+    --sipgateio-pink: #ff64dc;
+}
+body{
+    background-color: lightgrey;
+}
+.circle{
+    margin:0 1rem;
+    width: 5rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border:.07em solid black;
+    background: white;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+.timer{
+    font-size: 2rem;
+}
+.circleGuess{
+    width: 1rem;
+    aspect-ratio: 1;
+    background-color: white;
+    margin:.2rem;
+    border-radius: 50%;
+}
+.rightPlace{
+    background-color: #ff64dc;
+}
+.wrongPlace{
+    background-color: #000000;
+}
+.active{
+    border:.07em solid transparent;
+    background-color: var(--sipgateio-pink);
+    color:white;
+}
+.index{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.rowContainer{
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    gap:5rem;
+}
+.section{
+    flex-direction: row;
+    display: flex;
+}
+.gridSection{
+    display:grid;
+    gap:.4rem;
+    place-content: center;
+    grid-template-columns: repeat(2,20px);
+}
+.feedback{
+    background-color: white;
+    padding:1.5rem;
+    border-radius: 50px;
+    border:.15em solid var(--sipgateio-pink)
+}

@@ -8,22 +8,26 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import IntroductionView from "./Views/IntroductionView";
 import HighscoreView from "./Views/HighscoreView";
 import ConsentView from "./Views/ConsentView";
-import MastermindView from "./Views/MastermindView";
+import MastermindView, {
+  mastermindViewProps,
+} from "./Views/MastermindView/MastermindView";
 
 const client = new W3CWebSocket("ws://localhost:8000/");
 
 function App() {
-  const [gameData, setGameData] = useState({});
-  const [rowToHighlight, setRowToHightlight] = useState<{ position: number } | undefined>(undefined);
+  const [gameData, setGameData] = useState<mastermindViewProps | undefined>();
+  const [rowToHighlight, setRowToHightlight] = useState<
+    { position: number } | undefined
+  >(undefined);
 
   useEffect(() => {
     // TODO: remove this debug function when it's no longer needed
     // to test the ranking row highlights
     (window as any).setPos = (pos: number) => {
       setRowToHightlight({
-        position: pos
-      })
-    }
+        position: pos,
+      });
+    };
 
     client.onopen = () => {
       console.log("WebSocket Client Connected");
@@ -47,9 +51,8 @@ function App() {
         }
         if (data.type === "gameFinished") {
           setRowToHightlight({
-            position: JSON.parse(data.message).position
+            position: JSON.parse(data.message).position,
           });
-
         }
       }
     };
@@ -70,11 +73,14 @@ function App() {
               path="/play"
               element={<MastermindView gameData={gameData} />}
             />
-            <Route path="/ranking" element={<HighscoreView highlight={rowToHighlight} />} />
+            <Route
+              path="/ranking"
+              element={<HighscoreView highlight={rowToHighlight} />}
+            />
             <Route
               path="*"
               element={
-                <div className="container">
+                <div className="rowContainer">
                   <h2>404 Site not found </h2>
                 </div>
               }
