@@ -94,7 +94,7 @@ export class DTMF_Controller {
 		this.isCalling = true;
 		this.isPlaying = false;
 
-		sendMessage(buildMessageJson("newCall", ""));
+		sendMessage(buildMessageJson('newCall', ''));
 
 		clearTimeout(this.goodByeTimeout);
 
@@ -116,7 +116,7 @@ export class DTMF_Controller {
 	 * @param data the incoming event
 	 * @returns a Promise that resolves to a WebhookResponse after the handler has finished
 	 */
-	onData(data: DataEvent) {
+	async onData(data: DataEvent) {
 		this.lastDTMFEvent = Date.now();
 
 		// a -1 indicates, that the player has hung up while an announcement was playing
@@ -137,7 +137,7 @@ export class DTMF_Controller {
 				this.mastermind = new Mastermind();
 				this.isPlaying = true;
 
-				sendMessage(buildMessageJson("consentAccepted", ""));
+				sendMessage(buildMessageJson('consentAccepted', ''));
 			} else {
 				// collect more DTMF events until the playes presses a key
 				return WebhookResponse.gatherDTMF(this.gatherDTMFResponse());
@@ -157,7 +157,7 @@ export class DTMF_Controller {
 
 		// save the result and hang up the call when the game is finished
 		if (this.mastermind.isGameFinished()) {
-			this.finishGame();
+			await this.finishGame();
 			return WebhookResponse.hangUpCall();
 		} else {
 			// if the game isn't finished, we need to listen for more DTMF events
@@ -191,6 +191,7 @@ export class DTMF_Controller {
 	 * shows the logo after 5 seconds
 	 */
 	private goodBye() {
+		clearTimeout(this.goodByeTimeout)
 		this.goodByeTimeout = setTimeout(() => {
 			this.printLogo(this.NUMBER_TO_CALL);
 		}, 5000);
@@ -236,7 +237,7 @@ export class DTMF_Controller {
 					tries: result.tries,
 					duration: result.duration,
 					hasWon: result.isWon,
-					position: position
+					position: position,
 				})
 			)
 		);
@@ -285,7 +286,7 @@ export class DTMF_Controller {
 	 * print a thank you message and reset the controller to accept a new call.
 	 */
 	private userHungUp() {
-		sendMessage(buildMessageJson("userHungUp", ""));
+		sendMessage(buildMessageJson('userHungUp', ''));
 
 		console.clear();
 		console.log(THANK_YOU);

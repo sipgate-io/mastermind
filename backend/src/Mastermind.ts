@@ -79,13 +79,12 @@ export class Mastermind {
 	enterDigit(digit: Digit) {
 		if (this.isGameFinished()) return;
 		if ('123456'.indexOf(digit.toString()) !== -1) {
-			if (this.currentRow.indexOf(digit) === -1) {
-				this.currentRow[this.pointer.column] = digit;
-				this.movePointerColumn();
-				this.errorMessage = '';
-			} else {
-				this.errorMessage = ERR_NO_DUPLICATES;
+			if (this.currentRow.indexOf(digit) !== -1) {
+				this.currentRow[this.currentRow.indexOf(digit)] = undefined;
 			}
+			this.currentRow[this.pointer.column] = digit;
+			this.movePointerColumn();
+			this.errorMessage = '';
 		} else {
 			this.errorMessage = ERR_INVALID_DIGIT;
 		}
@@ -180,6 +179,7 @@ export class Mastermind {
 	isGameFinished() {
 		return this.isFinished;
 	}
+
 	// Creates an empty string with num blanks
 	private genPadding(num: number) {
 		let str = '';
