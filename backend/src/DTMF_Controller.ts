@@ -128,12 +128,7 @@ export class DTMF_Controller {
 		if (this.isPlaying) {
 			this.handleInput(data.dtmf);
 		} else {
-			// the first input the player sends should start the game
-			// because the announcement has finished a ASCII 0 character is sent automatically,
-			// this should not be treated as user-input
-			const isAsciiZero = data.dtmf.charCodeAt(0).toString(16) === '0';
-
-			if (data.dtmf.length === 1 && !isAsciiZero) {
+			if (data.dtmf === '1') {
 				this.mastermind = new Mastermind();
 				this.isPlaying = true;
 
@@ -191,7 +186,7 @@ export class DTMF_Controller {
 	 * shows the logo after 5 seconds
 	 */
 	private goodBye() {
-		clearTimeout(this.goodByeTimeout)
+		clearTimeout(this.goodByeTimeout);
 		this.goodByeTimeout = setTimeout(() => {
 			this.printLogo(this.NUMBER_TO_CALL);
 		}, 5000);
