@@ -103,6 +103,7 @@ export class DTMF_Controller {
 		console.log(ANNOUNCEMENT_COMPLETE_TEXT);
 
 		this.lastTime = Date.now() + this.WELCOME_AUDIO_LENGTH;
+		this.lastDTMFEvent = Date.now() + this.WELCOME_AUDIO_LENGTH;
 
 		return WebhookResponse.gatherDTMF({
 			maxDigits: 1,
@@ -168,7 +169,7 @@ export class DTMF_Controller {
 	private hangUpInterval(totalLength: number) {
 		return setInterval(() => {
 			let difference = Date.now() - this.lastDTMFEvent;
-			if (this.isCalling && this.isPlaying && difference > totalLength) {
+			if (this.isCalling && difference > totalLength) {
 				this.userHungUp();
 			}
 		}, 1000);
