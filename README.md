@@ -2,8 +2,8 @@
 
 ## Setup
 
-1. Install dependencies with `npm install`.
-2. Compile the project with `npm run build`.
+1. Install dependencies in `/backend` and `/frontend` with `npm install`.
+2. Compile the project in `/backend` and `/frontend` with `npm run build`.
 3. Copy `.env.example` to `.env`.
 4. Download the sipgate Softphone from [here](https://www.sipgate.de/softphone-download).
 5. Login with your sipgate account.
