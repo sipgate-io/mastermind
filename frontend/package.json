@@ -9,7 +9,7 @@
     "test:frontend": "react-scripts test --watchAll=false App.test.tsx",
     "test:integration": "react-scripts test --watchAll=false integration.test.tsx",
     "eject": "react-scripts eject",
-    "preinstall": "git config core.hooksPath ../.git-hooks"
+    "preinstall": "git config core.hooksPath .git-hooks"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",

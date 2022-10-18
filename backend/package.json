@@ -7,7 +7,7 @@
 		"build": "tsc",
 		"test": "jest --coverage --silent=false",
 		"start": "node build/Game.js",
-		"preinstall": "git config core.hooksPath ../.git-hooks"
+		"preinstall": "git config core.hooksPath .git-hooks"
 	},
 	"keywords": [],
 	"author": "",
