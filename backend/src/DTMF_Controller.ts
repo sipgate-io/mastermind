@@ -116,7 +116,7 @@ export class DTMF_Controller {
 	 * @param data the incoming event
 	 * @returns a Promise that resolves to a WebhookResponse after the handler has finished
 	 */
-	onData(data: DataEvent) {
+	async onData(data: DataEvent) {
 		this.lastDTMFEvent = Date.now();
 
 		// a -1 indicates, that the player has hung up while an announcement was playing
@@ -157,7 +157,7 @@ export class DTMF_Controller {
 
 		// save the result and hang up the call when the game is finished
 		if (this.mastermind.isGameFinished()) {
-			this.finishGame();
+			await this.finishGame();
 			return WebhookResponse.hangUpCall();
 		} else {
 			// if the game isn't finished, we need to listen for more DTMF events
@@ -183,7 +183,6 @@ export class DTMF_Controller {
 	 * clears the internal timeout and interval
 	 */
 	quit() {
-		console.log('clearing timeout');
 		clearInterval(this.hangUpDetectionInterval);
 		clearTimeout(this.goodByeTimeout);
 	}
@@ -192,7 +191,7 @@ export class DTMF_Controller {
 	 * shows the logo after 5 seconds
 	 */
 	private goodBye() {
-		console.log('starting timeout');
+		clearTimeout(this.goodByeTimeout)
 		this.goodByeTimeout = setTimeout(() => {
 			this.printLogo(this.NUMBER_TO_CALL);
 		}, 5000);

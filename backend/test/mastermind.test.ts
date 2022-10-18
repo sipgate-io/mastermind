@@ -58,7 +58,6 @@ describe('DTMF Controller', () => {
 		consoleLogMock = jest
 			.spyOn(console, 'log')
 			.mockImplementation((message) => {});
-		console.log('EXECUTING');
 		const consoleClearMock = jest
 			.spyOn(console, 'clear')
 			.mockImplementation(() => {});
