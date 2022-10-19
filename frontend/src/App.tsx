@@ -15,7 +15,27 @@ import MastermindView, {
 const client = new W3CWebSocket("ws://localhost:8000/");
 
 function App() {
-  const [gameData, setGameData] = useState<MastermindViewProps | undefined>();
+  const [gameData, setGameData] = useState<MastermindViewProps | undefined>({
+    mastermindHeight: 10,
+    currentRow: [1, 2, 3, undefined],
+    errorMessage: "",
+    gameResult: {
+      duration: 10,
+      isWon: false,
+      tries: 2,
+    },
+    pastGuesses: [
+      {
+        correctNumbersRightPlace: 2,
+        correctNumbersWrongPlace: 1,
+        rowNumbers: [1, 2, 3, 4],
+      },
+    ],
+    pointer: {
+      column: 1,
+      row: 1,
+    },
+  });
   const [rowToHighlight, setRowToHightlight] = useState<
     { position: number } | undefined
   >(undefined);

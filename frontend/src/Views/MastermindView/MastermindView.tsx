@@ -19,12 +19,48 @@ interface MastermindRow {
 
 export interface MastermindViewProps {
   mastermindHeight: number;
-  currentRow: Array<number>;
+  currentRow: Array<number | undefined>;
   pastGuesses: Array<MastermindRow>;
   gameResult: GameResult;
   errorMessage: string;
   pointer: Pointer;
 }
+
+const MastermindGuessFeedback = (props: {
+  correctNumber: number;
+  wrongNumber: number;
+}) => {
+  return (
+    <div className="grid-guess-feedback">
+      {Array.from(Array(props.correctNumber).keys()).map(() => {
+        return <div className="grid-guess-feedback__circle rightPlace" />;
+      })}
+
+      {Array.from(Array(props.wrongNumber).keys()).map(() => {
+        return <div className="grid-guess-feedback__circle wrongPlace" />;
+      })}
+
+      {Array.from(
+        Array(4 - props.correctNumber - props.wrongNumber).keys()
+      ).map(() => {
+        return <div className="grid-guess-feedback__circle" />;
+      })}
+    </div>
+  );
+};
+
+const MastermindRow = (props: { index: number }) => {
+  return (
+    <>
+      <span className="grid-index">{props.index}</span>
+      <div className="grid-circle" />
+      <div className="grid-circle" />
+      <div className="grid-circle" />
+      <div className="grid-circle" />
+      <MastermindGuessFeedback correctNumber={1} wrongNumber={2} />
+    </>
+  );
+};
 
 const MastermindView = ({ gameData }: { gameData?: MastermindViewProps }) => {
   const mastermindArray = () => {
@@ -67,7 +103,7 @@ const MastermindView = ({ gameData }: { gameData?: MastermindViewProps }) => {
   const renderCurrentRow = (
     index: number,
     column: number,
-    data: Array<number>
+    data: Array<number | undefined>
   ) => {
     return (
       <div className="rowContainer">
@@ -137,7 +173,7 @@ const MastermindView = ({ gameData }: { gameData?: MastermindViewProps }) => {
         <div className="timer">03:24</div>
       </div>
 
-      {mastermindArray().map((data, index) => {
+      {/* {mastermindArray().map((data, index) => {
         if (gameData) {
           if (gameData.pastGuesses[index]) {
             return renderPastGuessRow(index, gameData.pastGuesses[index]);
@@ -153,7 +189,14 @@ const MastermindView = ({ gameData }: { gameData?: MastermindViewProps }) => {
         } else {
           return "";
         }
-      })}
+      })} */}
+
+      <div className="grid">
+        <MastermindRow index={1} />
+        <MastermindRow index={2} />
+        <MastermindRow index={3} />
+        <MastermindRow index={10} />
+      </div>
 
       <div className="rowContainer">
         <div className="feedback">
