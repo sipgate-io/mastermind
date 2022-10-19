@@ -1,0 +1,20 @@
+:root{
+    --sipgateio-pink: #ff64dc;
+    --sipgateio-grey: #D9D9D9;
+}
+
+body {
+    background-color: var(--sipgateio-grey);
+}
+
+.rowContainer {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    gap: 5rem;
+}
+
+.section {
+    flex-direction: row;
+    display: flex;
+}
