@@ -80,10 +80,22 @@ body {
 .controls {
     margin: 24px 0px;
     color: rgb(78, 78, 78);
+    display: flex;
 }
 
-.controls>span {
+.controls>div {
     margin: 0px 24px;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+}
+
+.controls>div>*:nth-child(1) {
+    margin-right: 6px;
+}
+
+.controls-hash>*:nth-child(1) {
+    margin-right: 2px !important;
 }
 
 .feedback {
