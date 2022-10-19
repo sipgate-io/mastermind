@@ -10,6 +10,7 @@ import ConsentView from "./Views/ConsentView";
 import MastermindView, {
   MastermindViewProps,
 } from "./Views/MastermindView/MastermindView";
+import { GameFinished } from "./Views/GameFinished/GameFinished";
 
 const client = new W3CWebSocket("ws://localhost:8000/");
 
@@ -51,9 +52,12 @@ function App() {
           navigate("/play");
         }
         if (data.type === "userHungUp") {
-          window.location.href = "/ranking";
+          // window.location.href = "/";
         }
         if (data.type === "gameFinished") {
+          navigate("/gameFinished", {
+            state: JSON.parse(data.message),
+          });
           setRowToHightlight({
             position: JSON.parse(data.message).position,
           });
@@ -78,6 +82,8 @@ function App() {
         path="/ranking"
         element={<HighscoreView highlight={rowToHighlight} />}
       />
+      <Route path="/gameFinished" element={<GameFinished />} />
+
       <Route
         path="*"
         element={
