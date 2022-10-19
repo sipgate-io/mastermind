@@ -364,6 +364,16 @@ describe('DTMF Controller', () => {
 
 		expect(consoleLogMock).toBeCalledWith(ERR_FILL_FULL);
 	});
+
+	test('rejects anonymous caller', async () => {
+		const newCallEvent: NewCallEvent = {
+			from: 'anonymous',
+		} as NewCallEvent;
+
+		let response = await dtmfController.newCall(newCallEvent);
+
+		expect(isHangUpObject(response)).toBe(true);
+	});
 });
 
 // komplette richtige Zeile eingeben (pastGuesses)
