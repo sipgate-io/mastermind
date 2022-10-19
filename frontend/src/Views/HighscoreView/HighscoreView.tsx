@@ -73,18 +73,18 @@ const HighscoreView = (props: {
           <p>{`Error: ${ranking.error.message}`}</p>
         )}
         {ranking.state === "finished" &&
-          ranking.value.map((ranking, index) => (
+          ranking.value.slice(0, 10).map((ranking, index) => (
             <div className="row content" key={ranking.key}>
-              <div className="index" key={ranking.key + "index"}>
+              <div className="index">
                 {index + 1}
               </div>
-              <div className="player" key={ranking.key + "player"}>
+              <div className="player">
                 {ranking.usersTel}
               </div>
-              <div className="time" key={ranking.key + "time"}>
+              <div className="time">
                 {millisToMinutesAndSeconds(ranking.duration)}
               </div>
-              <div className="tries" key={ranking.key + "tries"}>
+              <div className="tries">
                 {ranking.tries}
               </div>
             </div>

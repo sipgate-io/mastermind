@@ -24,19 +24,27 @@ body {
     visibility: hidden;
 }
 
+.title {
+    font-weight: bold;
+}
+
 .content {
     background: white;
     box-sizing: border-box;
-    outline: 0.125rem solid black;
+    box-shadow: inset 0 0 0 0.125rem black;
     border-radius: 100rem;
     align-items: center;
+}
+
+.content:nth-child(2) {
+    background: var(--sipgateio-pink);
+    box-shadow: none;
 }
 
 .index {
     background: white;
     border: 0.125rem solid black;
     border-radius: 100%;
-    border-left: 0;
     width: 2.75rem;
     height: 2.75rem;
 }
