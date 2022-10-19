@@ -17,7 +17,7 @@ interface MastermindRow {
   correctNumbersWrongPlace: number;
 }
 
-export interface mastermindViewProps {
+export interface MastermindViewProps {
   mastermindHeight: number;
   currentRow: Array<number>;
   pastGuesses: Array<MastermindRow>;
@@ -26,7 +26,7 @@ export interface mastermindViewProps {
   pointer: Pointer;
 }
 
-const MastermindView = ({ gameData }: { gameData?: mastermindViewProps }) => {
+const MastermindView = ({ gameData }: { gameData?: MastermindViewProps }) => {
   const mastermindArray = () => {
     if (gameData) {
       return Array.from(Array(gameData.mastermindHeight).keys());
@@ -34,12 +34,15 @@ const MastermindView = ({ gameData }: { gameData?: mastermindViewProps }) => {
     return [];
   };
   const renderRightNumber = (styleClass: string, count: number) => {
-    let _div = "";
+    const temp = Array.from(Array(count).keys());
 
-    for (let i = 0; i < count; i++) {
-      _div += <div className={`circleGuess ${styleClass}`}></div>;
-    }
-    return _div;
+    return (
+      <>
+        {temp.map((data, index) => {
+          return <div className={`circleGuess ${styleClass}`}></div>;
+        })}
+      </>
+    );
   };
 
   const renderEmptyRow = (index: number) => {
@@ -47,7 +50,7 @@ const MastermindView = ({ gameData }: { gameData?: mastermindViewProps }) => {
       <div className="rowContainer">
         <div className="section index">{index + 1}</div>
         <div className="section">
-          <div className="circle active">2</div>
+          <div className="circle"></div>
           <div className="circle"></div>
           <div className="circle"></div>
           <div className="circle"></div>
@@ -57,6 +60,29 @@ const MastermindView = ({ gameData }: { gameData?: mastermindViewProps }) => {
           <div className="circleGuess"></div>
           <div className="circleGuess"></div>
           <div className="circleGuess"></div>
+        </div>
+      </div>
+    );
+  };
+  const renderCurrentRow = (
+    index: number,
+    column: number,
+    data: Array<number>
+  ) => {
+    return (
+      <div className="rowContainer">
+        <div className="section index">{index + 1}</div>
+        <div className="section">
+          {data.map((data, index) => {
+            return (
+              <div className={`circle ${index === column ? "active" : ""}`}>
+                {data ? data : ""}
+              </div>
+            );
+          })}
+        </div>
+        <div className="section gridSection">
+          {renderRightNumber("", data.length)}
         </div>
       </div>
     );
@@ -112,39 +138,22 @@ const MastermindView = ({ gameData }: { gameData?: mastermindViewProps }) => {
       </div>
 
       {mastermindArray().map((data, index) => {
-        return (
-          <div className="rowContainer">
-            <div className="section index">{index + 1}</div>
-            <div className="section">
-              <div className="circle active">2</div>
-              <div className="circle"></div>
-              <div className="circle">4</div>
-              <div className="circle"></div>
-            </div>
-            <div className="section gridSection">
-              <div className="circleGuess rightPlace"></div>
-              <div className="circleGuess wrongPlace"></div>
-              <div className="circleGuess"></div>
-              <div className="circleGuess"></div>
-            </div>
-          </div>
-        );
+        if (gameData) {
+          if (gameData.pastGuesses[index]) {
+            return renderPastGuessRow(index, gameData.pastGuesses[index]);
+          }
+          if (gameData.pointer.row === index) {
+            return renderCurrentRow(
+              index,
+              gameData.pointer.column,
+              gameData.currentRow
+            );
+          }
+          return renderEmptyRow(index);
+        } else {
+          return "";
+        }
       })}
-      <div className="rowContainer">
-        <div className="section index">1</div>
-        <div className="section">
-          <div className="circle active">2</div>
-          <div className="circle"></div>
-          <div className="circle">4</div>
-          <div className="circle"></div>
-        </div>
-        <div className="section gridSection">
-          <div className="circleGuess rightPlace"></div>
-          <div className="circleGuess wrongPlace"></div>
-          <div className="circleGuess"></div>
-          <div className="circleGuess"></div>
-        </div>
-      </div>
 
       <div className="rowContainer">
         <div className="feedback">

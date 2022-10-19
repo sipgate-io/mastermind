@@ -9,13 +9,13 @@ import IntroductionView from "./Views/IntroductionView";
 import HighscoreView from "./Views/HighscoreView";
 import ConsentView from "./Views/ConsentView";
 import MastermindView, {
-  mastermindViewProps,
+  MastermindViewProps,
 } from "./Views/MastermindView/MastermindView";
 
 const client = new W3CWebSocket("ws://localhost:8000/");
 
 function App() {
-  const [gameData, setGameData] = useState<mastermindViewProps | undefined>();
+  const [gameData, setGameData] = useState<MastermindViewProps | undefined>();
   const [rowToHighlight, setRowToHightlight] = useState<
     { position: number } | undefined
   >(undefined);
