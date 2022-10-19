@@ -17,7 +17,6 @@ body {
 .row {
     display: flex;
     flex-direction: row;
-    gap: 3rem;
 }
 
 .title>div:first-child {
@@ -26,6 +25,7 @@ body {
 
 .title {
     font-weight: bold;
+    margin-bottom: -1rem;
 }
 
 .content {
@@ -47,13 +47,14 @@ body {
     border-radius: 100%;
     width: 2.75rem;
     height: 2.75rem;
+    font-size: 1.5rem;
 }
 
 .player {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 15rem;
+    width: 11rem;
 }
 
 .time {
@@ -68,15 +69,18 @@ body {
     align-items: center;
     justify-content: center;
     width: 5rem;
+    padding-right: 2rem;
 }
 
-
-/*.rowContainer {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    padding: 1rem;*/
-/*    gap: 5rem;*/
-/*}*/
+.cta {
+    background: var(--sipgateio-pink);
+    width: 11rem;
+    padding: 0.5rem;
+    color: white;
+    border-radius: 0.2rem;
+    margin-top: 1rem;
+    font-size: 0.75rem;
+}
 
 .section {
     flex-direction: row;

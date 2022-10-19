@@ -75,20 +75,19 @@ const HighscoreView = (props: {
         {ranking.state === "finished" &&
           ranking.value.slice(0, 10).map((ranking, index) => (
             <div className="row content" key={ranking.key}>
-              <div className="index">
-                {index + 1}
-              </div>
-              <div className="player">
-                {ranking.usersTel}
-              </div>
+              <div className="index">{index + 1}</div>
+              <div className="player">{ranking.usersTel}</div>
               <div className="time">
                 {millisToMinutesAndSeconds(ranking.duration)}
               </div>
-              <div className="tries">
-                {ranking.tries}
-              </div>
+              <div className="tries">{ranking.tries}</div>
             </div>
           ))}
+
+        <div className="cta">
+          Du willst mehr über sipgate und das Hacking Talents Programm erfahren?
+          Dann besuch uns doch auf sipgate.ht
+        </div>
       </div>
     </div>
   );
