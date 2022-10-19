@@ -86,7 +86,11 @@ export class DTMF_Controller {
 	async newCall(newCallEvent: NewCallEvent) {
 		// don't accept a new call when a player is already playing the game,
 		// or when the caller has already played
-		if (this.isCalling || (await this.callerHasPlayed(newCallEvent.from))) {
+		if (
+			this.isCalling ||
+			(await this.callerHasPlayed(newCallEvent.from)) ||
+			newCallEvent.from === 'anonymous'
+		) {
 			return WebhookResponse.hangUpCall();
 		}
 
