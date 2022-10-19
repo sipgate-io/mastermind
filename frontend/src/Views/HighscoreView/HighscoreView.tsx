@@ -61,37 +61,35 @@ const HighscoreView = (props: {
         />
       ) : null}
 
-      <div className="rowContainer">
-        <div className="section index">1</div>
-        <div className="section phonenumber">234324</div>
-        <div className="section time">00:23</div>
-        <div className="row tries">3</div>
-      </div>
+      <div className="container">
+        <div className="row title">
+          <div className="index"></div>
+          <div className="player">Spieler:in</div>
+          <div className="time">Zeit</div>
+          <div className="tries">Versuche</div>
+        </div>
 
-      <ul>
         {ranking.state === "error" && (
           <p>{`Error: ${ranking.error.message}`}</p>
         )}
         {ranking.state === "finished" &&
           ranking.value.map((ranking, index) => (
-            <li key={index}>
-              <div>
-                <span>{index + 1}.</span>
-                <span
-                  key={ranking.key}
-                  style={{ marginLeft: "1rem" }}
-                  className={ranking.isHighlighted ? "highlightRanking" : ""}
-                >
-                  {`${ranking.usersTel} benötigte ${
-                    ranking.tries
-                  } Versuche und hat ${millisToMinutesAndSeconds(
-                    ranking.duration
-                  )} gebraucht.`}
-                </span>
+            <div className="row content" key={ranking.key}>
+              <div className="index" key={ranking.key + "index"}>
+                {index + 1}
               </div>
-            </li>
+              <div className="player" key={ranking.key + "player"}>
+                {ranking.usersTel}
+              </div>
+              <div className="time" key={ranking.key + "time"}>
+                {millisToMinutesAndSeconds(ranking.duration)}
+              </div>
+              <div className="tries" key={ranking.key + "tries"}>
+                {ranking.tries}
+              </div>
+            </div>
           ))}
-      </ul>
+      </div>
     </div>
   );
 };
