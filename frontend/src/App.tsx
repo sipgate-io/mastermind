@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { getRankings, Ranking } from "./api";
 import "./App.css";
 import { IMessageEvent, w3cwebsocket as W3CWebSocket } from "websocket";
-//import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from "react-confetti";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import IntroductionView from "./Views/IntroductionView";
 import HighscoreView from "./Views/HighscoreView";
 import ConsentView from "./Views/ConsentView";
@@ -15,30 +14,14 @@ import MastermindView, {
 const client = new W3CWebSocket("ws://localhost:8000/");
 
 function App() {
-  const [gameData, setGameData] = useState<MastermindViewProps | undefined>({
-    mastermindHeight: 10,
-    currentRow: [1, 2, 3, undefined],
-    errorMessage: "",
-    gameResult: {
-      duration: 10,
-      isWon: false,
-      tries: 2,
-    },
-    pastGuesses: [
-      {
-        correctNumbersRightPlace: 2,
-        correctNumbersWrongPlace: 1,
-        rowNumbers: [1, 2, 3, 4],
-      },
-    ],
-    pointer: {
-      column: 1,
-      row: 1,
-    },
-  });
+  const [gameData, setGameData] = useState<MastermindViewProps | undefined>();
   const [rowToHighlight, setRowToHightlight] = useState<
     { position: number } | undefined
   >(undefined);
+  const [gameStart, setGameStart] = useState(0);
+  // const [gameStart, setGameStart] = useState(Date.now());
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // TODO: remove this debug function when it's no longer needed
@@ -64,7 +47,8 @@ function App() {
           window.location.href = "/consent";
         }
         if (data.type === "consentAccepted") {
-          window.location.href = "/play";
+          setGameStart(Date.now());
+          navigate("/play");
         }
         if (data.type === "userHungUp") {
           window.location.href = "/ranking";
@@ -83,32 +67,26 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <div>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<IntroductionView />} />
-            <Route path="/consent" element={<ConsentView />} />
-            <Route
-              path="/play"
-              element={<MastermindView gameData={gameData} />}
-            />
-            <Route
-              path="/ranking"
-              element={<HighscoreView highlight={rowToHighlight} />}
-            />
-            <Route
-              path="*"
-              element={
-                <div className="rowContainer">
-                  <h2>404 Site not found </h2>
-                </div>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </div>
+    <Routes>
+      <Route path="/" element={<IntroductionView />} />
+      <Route path="/consent" element={<ConsentView />} />
+      <Route
+        path="/play"
+        element={<MastermindView gameStart={gameStart} gameData={gameData} />}
+      />
+      <Route
+        path="/ranking"
+        element={<HighscoreView highlight={rowToHighlight} />}
+      />
+      <Route
+        path="*"
+        element={
+          <div className="rowContainer">
+            <h2>404 Site not found </h2>
+          </div>
+        }
+      />
+    </Routes>
   );
 }
 
