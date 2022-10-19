@@ -1,9 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import App from "./App";
 import * as API from "./api";
 import { Ranking } from "./api";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import HighscoreView from "./Views/HighscoreView";
+import HighscoreView from "./Views/HighscoreView/HighscoreView";
 
 test("renders the phone number", async () => {
   const last4Digits = "1234";
