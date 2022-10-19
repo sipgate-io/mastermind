@@ -1,3 +1,5 @@
+import { ReactNode, useEffect, useState } from "react";
+import { millisToMinutesAndSeconds } from "../HighscoreView";
 import "./MastermindView.css";
 
 interface GameResult {
@@ -19,146 +21,160 @@ interface MastermindRow {
 
 export interface MastermindViewProps {
   mastermindHeight: number;
-  currentRow: Array<number>;
+  currentRow: Array<number | undefined>;
   pastGuesses: Array<MastermindRow>;
   gameResult: GameResult;
   errorMessage: string;
   pointer: Pointer;
 }
 
-const MastermindView = ({ gameData }: { gameData?: MastermindViewProps }) => {
-  const mastermindArray = () => {
-    if (gameData) {
-      return Array.from(Array(gameData.mastermindHeight).keys());
-    }
-    return [];
-  };
-  const renderRightNumber = (styleClass: string, count: number) => {
-    const temp = Array.from(Array(count).keys());
+const MastermindGuessFeedback = (props: {
+  correctNumber: number;
+  wrongNumber: number;
+}) => {
+  let index = 0;
 
-    return (
-      <>
-        {temp.map((data, index) => {
-          return <div className={`circleGuess ${styleClass}`}></div>;
-        })}
-      </>
-    );
-  };
+  return (
+    <div className="grid-guess-feedback">
+      {Array.from(Array(props.correctNumber).keys()).map(() => {
+        return (
+          <div
+            key={index++}
+            className="grid-guess-feedback__circle rightPlace"
+          />
+        );
+      })}
 
-  const renderEmptyRow = (index: number) => {
-    return (
-      <div className="rowContainer">
-        <div className="section index">{index + 1}</div>
-        <div className="section">
-          <div className="circle"></div>
-          <div className="circle"></div>
-          <div className="circle"></div>
-          <div className="circle"></div>
-        </div>
-        <div className="section gridSection">
-          <div className="circleGuess"></div>
-          <div className="circleGuess"></div>
-          <div className="circleGuess"></div>
-          <div className="circleGuess"></div>
-        </div>
-      </div>
-    );
-  };
-  const renderCurrentRow = (
-    index: number,
-    column: number,
-    data: Array<number>
-  ) => {
-    return (
-      <div className="rowContainer">
-        <div className="section index">{index + 1}</div>
-        <div className="section">
-          {data.map((data, index) => {
-            return (
-              <div className={`circle ${index === column ? "active" : ""}`}>
-                {data ? data : ""}
-              </div>
-            );
-          })}
-        </div>
-        <div className="section gridSection">
-          {renderRightNumber("", data.length)}
-        </div>
-      </div>
-    );
-  };
-  const renderPastGuessRow = (index: number, data: MastermindRow) => {
-    return (
-      <div className="rowContainer">
-        <div className="section index">{index + 1}</div>
-        <div className="section">
-          {data.rowNumbers.map((data, index) => {
-            return <div className="circle">{data}</div>;
-          })}
-        </div>
-        <div className="section gridSection">
-          {renderRightNumber("rightPlace", data.correctNumbersRightPlace)}
-          {renderRightNumber("wrongPlace", data.correctNumbersWrongPlace)}
-          {renderRightNumber(
-            "",
-            data.rowNumbers.length -
-              data.correctNumbersRightPlace -
-              data.correctNumbersWrongPlace
-          )}
-        </div>
-      </div>
-    );
-  };
+      {Array.from(Array(props.wrongNumber).keys()).map(() => {
+        return (
+          <div
+            key={index++}
+            className="grid-guess-feedback__circle wrongPlace"
+          />
+        );
+      })}
 
-  const convertGuess = (
-    guess: Array<number | null>,
-    activeIndex?: number,
-    rightPlace?: number,
-    wrongPlace?: number
-  ) => {
-    let temp = guess.map((index, key) => {
-      return (
-        <td className={key === activeIndex ? "active" : ""}>
-          {index ? index : "-"}
-        </td>
+      {Array.from(
+        Array(4 - props.correctNumber - props.wrongNumber).keys()
+      ).map(() => {
+        return <div key={index++} className="grid-guess-feedback__circle" />;
+      })}
+    </div>
+  );
+};
+
+const MastermindRow = (props: {
+  numbers: (number | undefined)[];
+  index: number;
+  activeColumn?: number;
+  correctNumber: number;
+  wrongNumber: number;
+}) => {
+  return (
+    <>
+      <span className="grid-index">{props.index}</span>
+      {props.numbers.map((num, index) => {
+        return (
+          <div
+            key={index}
+            className={`grid-circle ${
+              index === props.activeColumn ? "grid-circle__active" : ""
+            }`}
+          >
+            {num}
+          </div>
+        );
+      })}
+      <MastermindGuessFeedback
+        correctNumber={props.correctNumber}
+        wrongNumber={props.wrongNumber}
+      />
+    </>
+  );
+};
+
+const MastermindView = ({
+  gameData,
+  gameStart,
+}: {
+  gameData?: MastermindViewProps;
+  gameStart: number;
+}) => {
+  let rows: ReactNode[] = [];
+
+  if (gameData) {
+    let index = 0;
+    // pastGuesses
+    gameData.pastGuesses.map((guess) => {
+      rows.push(
+        <MastermindRow
+          key={index}
+          numbers={guess.rowNumbers}
+          index={++index}
+          correctNumber={guess.correctNumbersRightPlace}
+          wrongNumber={guess.correctNumbersWrongPlace}
+        />
       );
     });
 
-    if (rightPlace !== undefined && wrongPlace !== undefined) {
-      temp.push(<td>[{rightPlace}]</td>);
-      temp.push(<td>({wrongPlace})</td>);
+    // currentRow
+    if (rows.length < gameData.mastermindHeight) {
+      rows.push(
+        <MastermindRow
+          key={index}
+          index={++index}
+          numbers={gameData.currentRow}
+          activeColumn={gameData.pointer.column}
+          correctNumber={0}
+          wrongNumber={0}
+        />
+      );
     }
-    return temp;
-  };
+
+    // fill with empty rows
+    const numRows = gameData.mastermindHeight - index;
+
+    for (let i = 0; i < numRows; i++) {
+      rows.push(
+        <MastermindRow
+          key={index}
+          index={++index}
+          numbers={[undefined, undefined, undefined, undefined]}
+          correctNumber={0}
+          wrongNumber={0}
+        />
+      );
+    }
+  }
+
+  const [_, setTime] = useState(0);
+  useEffect(() => {
+    setInterval(() => {
+      setTime(Date.now());
+    }, 100);
+  }, []);
 
   return (
     <div>
-      <div className="rowContainer">
-        <div className="timer">03:24</div>
-      </div>
-
-      {mastermindArray().map((data, index) => {
-        if (gameData) {
-          if (gameData.pastGuesses[index]) {
-            return renderPastGuessRow(index, gameData.pastGuesses[index]);
-          }
-          if (gameData.pointer.row === index) {
-            return renderCurrentRow(
-              index,
-              gameData.pointer.column,
-              gameData.currentRow
-            );
-          }
-          return renderEmptyRow(index);
-        } else {
-          return "";
-        }
-      })}
-
-      <div className="rowContainer">
-        <div className="feedback">
-          Bitte alle Felder dieser Zeile ausfüllen.
+      <div className="grid">
+        <div />
+        <div className="grid-time">
+          {gameStart > 0
+            ? millisToMinutesAndSeconds(Date.now() - gameStart)
+            : ""}
         </div>
+        {rows}
+        {gameData ? (
+          <div className="grid-message">
+            <div className="controls">
+              <span>* = Weiter</span>
+              <span># = Reihe bestätigen</span>
+            </div>
+            {gameData.errorMessage ? (
+              <div className="feedback">{gameData.errorMessage}</div>
+            ) : null}
+          </div>
+        ) : null}
       </div>
     </div>
   );

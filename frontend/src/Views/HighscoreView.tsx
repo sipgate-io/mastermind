@@ -7,17 +7,17 @@ type State<T> =
   | { state: "error"; error: Error }
   | { state: "finished"; value: T };
 
-const millisToMinutesAndSeconds = (millis: number) => {
+export const millisToMinutesAndSeconds = (millis: number) => {
   const minutes = Math.floor(millis / 60000);
   const seconds = Math.floor((millis % 60000) / 1000);
 
-  return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-}
+  return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+};
 
 const HighscoreView = (props: {
   highlight?: {
-    position: number
-  }
+    position: number;
+  };
 }) => {
   useEffect(() => {
     if (props.highlight && props.highlight?.position <= 3) {
@@ -36,7 +36,7 @@ const HighscoreView = (props: {
           value[props.highlight?.position - 1].isHighlighted = true;
         }
 
-        setRanking({ state: "finished", value })
+        setRanking({ state: "finished", value });
       })
       .catch((error) => setRanking({ state: "error", error }));
   }, [props.highlight]);
@@ -71,8 +71,16 @@ const HighscoreView = (props: {
             <li key={index}>
               <div>
                 <span>{index + 1}.</span>
-                <span key={ranking.key} style={{ marginLeft: "1rem" }} className={ranking.isHighlighted ? "highlightRanking" : ""}>
-                  {`${ranking.usersTel} benötigte ${ranking.tries} Versuche und hat ${millisToMinutesAndSeconds(ranking.duration)} gebraucht.`}
+                <span
+                  key={ranking.key}
+                  style={{ marginLeft: "1rem" }}
+                  className={ranking.isHighlighted ? "highlightRanking" : ""}
+                >
+                  {`${ranking.usersTel} benötigte ${
+                    ranking.tries
+                  } Versuche und hat ${millisToMinutesAndSeconds(
+                    ranking.duration
+                  )} gebraucht.`}
                 </span>
               </div>
             </li>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { getRankings, Ranking } from "./api";
 import "./App.css";
 import { IMessageEvent, w3cwebsocket as W3CWebSocket } from "websocket";
-//import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from "react-confetti";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import IntroductionView from "./Views/IntroductionView";
@@ -20,6 +19,8 @@ function App() {
   const [rowToHighlight, setRowToHightlight] = useState<
     { position: number } | undefined
   >(undefined);
+  const [gameStart, setGameStart] = useState(0);
+  // const [gameStart, setGameStart] = useState(Date.now());
 
   const navigate = useNavigate();
 
@@ -47,7 +48,8 @@ function App() {
           window.location.href = "/consent";
         }
         if (data.type === "consentAccepted") {
-          window.location.href = "/play";
+          setGameStart(Date.now());
+          navigate("/play");
         }
         if (data.type === "userHungUp") {
           // window.location.href = "/";
@@ -72,12 +74,16 @@ function App() {
     <Routes>
       <Route path="/" element={<IntroductionView />} />
       <Route path="/consent" element={<ConsentView />} />
-      <Route path="/play" element={<MastermindView gameData={gameData} />} />
+      <Route
+        path="/play"
+        element={<MastermindView gameStart={gameStart} gameData={gameData} />}
+      />
       <Route
         path="/ranking"
         element={<HighscoreView highlight={rowToHighlight} />}
       />
       <Route path="/gameFinished" element={<GameFinished />} />
+
       <Route
         path="*"
         element={
