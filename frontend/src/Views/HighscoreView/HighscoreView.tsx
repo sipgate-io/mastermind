@@ -63,10 +63,10 @@ const HighscoreView = (props: {
 
       <div className="container">
         <div className="row title">
-          <div className="index"></div>
-          <div className="player">Spieler:in</div>
-          <div className="time">Zeit</div>
-          <div className="tries">Versuche</div>
+          <div className="index center-content"></div>
+          <div className="player center-content">Spieler:in</div>
+          <div className="time center-content">Zeit</div>
+          <div className="tries center-content">Versuche</div>
         </div>
 
         {ranking.state === "error" && (
@@ -81,12 +81,12 @@ const HighscoreView = (props: {
               }
               key={`ranking-${index}`}
             >
-              <div className="index">{index + 1}</div>
-              <div className="player">{ranking.usersTel}</div>
-              <div className="time">
+              <div className="index center-content">{index + 1}</div>
+              <div className="player center-content">{ranking.usersTel}</div>
+              <div className="time center-content">
                 {millisToMinutesAndSeconds(ranking.duration)}
               </div>
-              <div className="tries">{ranking.tries}</div>
+              <div className="tries center-content">{ranking.tries}</div>
             </div>
           ))}
 

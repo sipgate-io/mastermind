@@ -78,7 +78,7 @@ const MastermindRow = (props: {
         return (
           <div
             key={index}
-            className={`grid-circle ${
+            className={`grid-circle center-content ${
               index === props.activeColumn ? "grid-circle__active" : ""
             }`}
           >
@@ -166,7 +166,7 @@ const MastermindView = ({
         </div>
         {rows}
         {gameData ? (
-          <div className="grid-message">
+          <div className="grid-message center-content">
             <div className="controls">
               <div>
                 <BsAsterisk fontSize={18} />= Weiter

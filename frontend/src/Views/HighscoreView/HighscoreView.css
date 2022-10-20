@@ -48,29 +48,17 @@ body {
     width: 2.75rem;
     height: 2.75rem;
     font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .player {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 11rem;
 }
 
 .time {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 3rem;
 }
 
 .tries {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 5rem;
     padding-right: 2rem;
 }
