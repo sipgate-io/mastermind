@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { getRankings, Ranking } from "./api";
 import "./App.css";
 import { IMessageEvent, w3cwebsocket as W3CWebSocket } from "websocket";
-import Confetti from "react-confetti";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import IntroductionView from "./Views/IntroductionView";
-import HighscoreView from "./Views/HighscoreView";
 import ConsentView from "./Views/ConsentView";
 import MastermindView, {
   MastermindViewProps,
 } from "./Views/MastermindView/MastermindView";
 import { GameFinished } from "./Views/GameFinished/GameFinished";
+import HighscoreView from "./Views/HighscoreView/HighscoreView";
 
 const client = new W3CWebSocket("ws://localhost:8000/");
 

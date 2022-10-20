@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import Confetti from "react-confetti";
-import { getRankings, Ranking } from "../api";
+import { getRankings, Ranking } from "../../api";
+import "./HighscoreView.css";
 
 type State<T> =
   | { state: "pending" }
@@ -60,32 +61,40 @@ const HighscoreView = (props: {
         />
       ) : null}
 
-      <h1>Rankings</h1>
+      <div className="container">
+        <div className="row title">
+          <div className="index center-content"></div>
+          <div className="player center-content">Spieler:in</div>
+          <div className="time center-content">Zeit</div>
+          <div className="tries center-content">Versuche</div>
+        </div>
 
-      <ul>
         {ranking.state === "error" && (
           <p>{`Error: ${ranking.error.message}`}</p>
         )}
         {ranking.state === "finished" &&
-          ranking.value.map((ranking, index) => (
-            <li key={index}>
-              <div>
-                <span>{index + 1}.</span>
-                <span
-                  key={ranking.key}
-                  style={{ marginLeft: "1rem" }}
-                  className={ranking.isHighlighted ? "highlightRanking" : ""}
-                >
-                  {`${ranking.usersTel} benötigte ${
-                    ranking.tries
-                  } Versuche und hat ${millisToMinutesAndSeconds(
-                    ranking.duration
-                  )} gebraucht.`}
-                </span>
+          ranking.value.slice(0, 10).map((ranking, index) => (
+            <div
+              className={
+                "row content" +
+                (index === props.highlight?.position ? " highlight" : "")
+              }
+              key={`ranking-${index}`}
+            >
+              <div className="index center-content">{index + 1}</div>
+              <div className="player center-content">{ranking.usersTel}</div>
+              <div className="time center-content">
+                {millisToMinutesAndSeconds(ranking.duration)}
               </div>
-            </li>
+              <div className="tries center-content">{ranking.tries}</div>
+            </div>
           ))}
-      </ul>
+
+        <div className="cta">
+          Du willst mehr über sipgate und das Hacking Talents Programm erfahren?
+          Dann besuch uns doch auf sipgate.ht
+        </div>
+      </div>
     </div>
   );
 };
