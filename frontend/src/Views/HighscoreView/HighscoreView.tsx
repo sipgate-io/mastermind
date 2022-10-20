@@ -8,7 +8,7 @@ type State<T> =
   | { state: "error"; error: Error }
   | { state: "finished"; value: T };
 
-const millisToMinutesAndSeconds = (millis: number) => {
+export const millisToMinutesAndSeconds = (millis: number) => {
   const minutes = Math.floor(millis / 60000);
   const seconds = Math.floor((millis % 60000) / 1000);
 

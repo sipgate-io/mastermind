@@ -142,9 +142,9 @@ export class Mastermind {
 				//player lose
 				this.finishGame(false);
 			} else {
-				this.currentRow = [undefined, undefined, undefined, undefined];
 				this.movePointerRow();
 			}
+			this.currentRow = [undefined, undefined, undefined, undefined];
 		} else {
 			this.errorMessage = ERR_FILL_FULL;
 		}
