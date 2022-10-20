@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import { millisToMinutesAndSeconds } from "../HighscoreView";
+import { millisToMinutesAndSeconds } from "../HighscoreView/HighscoreView";
 import "./MastermindView.css";
 import { BsAsterisk, BsHash } from "react-icons/bs";
 
