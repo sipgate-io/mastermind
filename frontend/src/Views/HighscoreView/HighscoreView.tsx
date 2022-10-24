@@ -76,8 +76,7 @@ const HighscoreView = (props: {
           ranking.value.slice(0, 10).map((ranking, index) => (
             <div
               className={
-                "row content" +
-                (index === props.highlight?.position ? " highlight" : "")
+                "row content" + (ranking.isHighlighted ? " highlight" : "")
               }
               key={`ranking-${index}`}
             >
