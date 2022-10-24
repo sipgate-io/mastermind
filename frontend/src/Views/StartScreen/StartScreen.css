@@ -1,0 +1,91 @@
+.startScreen {
+    background-color: rgb(0, 0, 0);
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.startScreen_top {
+    flex: 1;
+    margin-bottom: 7vh;
+}
+
+.startScreen_logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: column;
+    font-size: 6em;
+    line-height: 120px;
+}
+
+.startScreen_img {
+    display: flex;
+    justify-content: center;
+}
+
+.startScreen_img > div {
+    position: relative;
+}
+
+.startScreen_img_number {
+    position: absolute;
+    background-color: rgb(0, 0, 0);
+    top: 54%;
+    left: 24%;
+    right: 24%;
+    height: 16%;
+    font-size: 2.5em;
+    line-height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.startScreen_ranking {
+    width: 100%;
+    padding: 0 14%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    font-size: 4.6em;
+    margin-top: 4vh;
+}
+
+.startScreen_ranking_header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1vh;
+}
+
+.startScreen_ranking_row {
+    width: 100%;
+    background-color: white;
+    margin-top: 1vh;
+    font-size: 2.5rem;
+    padding: 2rem;
+    box-sizing: border-box;
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.startScreen_ranking_row > div {
+    display: flex;
+    align-items: center;
+}
+
+.startScreen_ranking_row > img {
+    position: absolute;
+    left: 15px;
+    top: 10px;
+    height: 80px;
+}
+
+.startScreen_ranking_row_first {
+    margin-left: 90px;
+}

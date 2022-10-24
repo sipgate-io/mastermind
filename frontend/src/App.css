@@ -3,3 +3,8 @@
     align-items: center;
     justify-content: center;
 }
+
+body {
+    color: white;
+    font-family: "ab-megadot9", monospace;
+}

@@ -9,6 +9,7 @@ import MastermindView, {
 } from "./Views/MastermindView/MastermindView";
 import { GameFinished } from "./Views/GameFinished/GameFinished";
 import HighscoreView from "./Views/HighscoreView/HighscoreView";
+import { StartScreen } from "./Views/StartScreen/StartScreen";
 
 const client = new W3CWebSocket("ws://localhost:8000/");
 
@@ -70,7 +71,8 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<IntroductionView />} />
+      {/* <Route path="/" element={<IntroductionView />} /> */}
+      <Route path="/" element={<StartScreen />} />
       <Route path="/consent" element={<ConsentView />} />
       <Route
         path="/play"
