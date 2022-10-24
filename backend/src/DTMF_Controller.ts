@@ -55,6 +55,7 @@ export class DTMF_Controller {
 
 	private mastermind: Mastermind;
 	private usersTel: string;
+	private currentCallId: string;
 	private readonly database: Database;
 
 	private readonly WELCOME_AUDIO_LENGTH = 25000;
@@ -71,6 +72,7 @@ export class DTMF_Controller {
 		this.mastermind = new Mastermind();
 		this.database = new Database(fileName);
 		this.usersTel = '';
+		this.currentCallId = '';
 		this.NUMBER_TO_CALL = numberToCall;
 		this.hangUpDetectionInterval = this.hangUpInterval(
 			this.REMINDER_AUDIO_LENGTH + 5000
@@ -86,15 +88,30 @@ export class DTMF_Controller {
 	async newCall(newCallEvent: NewCallEvent) {
 		// don't accept a new call when a player is already playing the game,
 		// or when the caller has already played
-		if (
-			this.isCalling ||
-			(await this.callerHasPlayed(newCallEvent.from)) ||
-			newCallEvent.from === 'anonymous'
-		) {
-			return WebhookResponse.hangUpCall();
+		if (this.isCalling) {
+			return WebhookResponse.gatherDTMF({
+				maxDigits: 1,
+				timeout: 900,
+				announcement: PING_AUDIO_URL,
+			});
+		}
+		if (newCallEvent.from === 'anonymous') {
+			return WebhookResponse.gatherDTMF({
+				maxDigits: 1,
+				timeout: 900,
+				announcement: PING_AUDIO_URL,
+			});
+		}
+		if (await this.callerHasPlayed(newCallEvent.from)) {
+			return WebhookResponse.gatherDTMF({
+				maxDigits: 1,
+				timeout: 900,
+				announcement: PING_AUDIO_URL,
+			});
 		}
 
 		this.usersTel = newCallEvent.from;
+		this.currentCallId = newCallEvent.callId;
 		this.isCalling = true;
 		this.isPlaying = false;
 
@@ -123,6 +140,9 @@ export class DTMF_Controller {
 	 * @returns a Promise that resolves to a WebhookResponse after the handler has finished
 	 */
 	async onData(data: DataEvent) {
+		if (this.currentCallId !== data.callId) {
+			return WebhookResponse.hangUpCall();
+		}
 		this.lastDTMFEvent = Date.now();
 
 		// a -1 indicates, that the player has hung up while an announcement was playing

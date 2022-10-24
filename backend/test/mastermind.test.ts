@@ -88,10 +88,16 @@ describe('DTMF Controller', () => {
 			from: '0123',
 		} as NewCallEvent;
 
-		await dtmfController.newCall(newCallEvent);
+		const dataEvent: DataEvent = {
+			dtmf: '1',
+			callId: '0',
+		} as DataEvent;
 
-		let response = await dtmfController.newCall(newCallEvent);
-		expect(isHangUpObject(response)).toBe(true);
+		await dtmfController.newCall(newCallEvent);
+		const response = await dtmfController.newCall(newCallEvent);
+		expect(isGatherObject(response)).toBe(true);
+		const dataResponse = await dtmfController.onData(dataEvent);
+		expect(isHangUpObject(dataResponse)).toBe(true);
 	});
 
 	test('rejects caller from database', async () => {
@@ -101,8 +107,16 @@ describe('DTMF Controller', () => {
 			from: '0123',
 		} as NewCallEvent;
 
-		let response = await dtmfController.newCall(newCallEvent);
-		expect(isHangUpObject(response)).toBe(true);
+		const dataEvent: DataEvent = {
+			dtmf: '1',
+			callId: '0',
+		} as DataEvent;
+
+		await dtmfController.newCall(newCallEvent);
+		const response = await dtmfController.newCall(newCallEvent);
+		expect(isGatherObject(response)).toBe(true);
+		const dataResponse = await dtmfController.onData(dataEvent);
+		expect(isHangUpObject(dataResponse)).toBe(true);
 	});
 
 	test('close database', async () => {
@@ -367,9 +381,16 @@ describe('DTMF Controller', () => {
 			from: 'anonymous',
 		} as NewCallEvent;
 
-		let response = await dtmfController.newCall(newCallEvent);
+		const dataEvent: DataEvent = {
+			dtmf: '1',
+			callId: '0',
+		} as DataEvent;
 
-		expect(isHangUpObject(response)).toBe(true);
+		await dtmfController.newCall(newCallEvent);
+		const response = await dtmfController.newCall(newCallEvent);
+		expect(isGatherObject(response)).toBe(true);
+		const dataResponse = await dtmfController.onData(dataEvent);
+		expect(isHangUpObject(dataResponse)).toBe(true);
 	});
 });
 
