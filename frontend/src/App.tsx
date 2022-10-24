@@ -50,7 +50,7 @@ function App() {
           navigate("/play");
         }
         if (data.type === "userHungUp") {
-          // window.location.href = "/";
+          window.location.href = "/";
         }
         if (data.type === "gameFinished") {
           navigate("/gameFinished", {
