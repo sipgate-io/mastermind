@@ -27,11 +27,24 @@ export class Database {
 	}
 
 	/**
+	 * @returns a list of all entries in the database of won games
+	 */
+	getEntriesForHighscore() {
+		return new Promise<DatabaseEntry[]>((resolve) => {
+			this.db.all(
+				'SELECT * FROM games WHERE hasWon = 1 ORDER BY tries ASC, duration ASC',
+				(err, rows) => {
+					resolve(rows);
+				}
+			);
+		});
+	}
+	/**
 	 * @returns a list of all entries in the database
 	 */
 	getEntries() {
 		return new Promise<DatabaseEntry[]>((resolve) => {
-			this.db.all('SELECT * FROM games WHERE hasWon = 1 ORDER BY tries ASC, duration ASC', (err, rows) => {
+			this.db.all('SELECT * FROM games', (err, rows) => {
 				resolve(rows);
 			});
 		});
@@ -39,13 +52,19 @@ export class Database {
 
 	/**
 	 * add a new entry to the database
-	 * @param entry the new entry to add
+	 * @param usersTel the callers number to add in db
 	 */
-	addEntry(entry: DatabaseEntry) {
+	addEntry(usersTel: string) {
+		const stmt = this.db.prepare('INSERT INTO games (usersTel) VALUES (?)');
+		stmt.run(usersTel);
+		stmt.finalize();
+	}
+
+	updateEntry(entry: DatabaseEntry) {
 		const stmt = this.db.prepare(
-			'INSERT INTO games (usersTel, duration, tries, hasWon) VALUES (?,?,?,?)'
+			'UPDATE games SET duration = (?), tries = (?), hasWon= (?) WHERE usersTel = (?)'
 		);
-		stmt.run(entry.usersTel, entry.duration, entry.tries, entry.hasWon);
+		stmt.run(entry.duration, entry.tries, entry.hasWon, entry.usersTel);
 		stmt.finalize();
 	}
 

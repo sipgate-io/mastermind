@@ -95,12 +95,7 @@ describe('DTMF Controller', () => {
 	});
 
 	test('rejects caller from database', async () => {
-		dtmfController['database'].addEntry({
-			usersTel: '0123',
-			duration: 10,
-			tries: 2,
-			hasWon: 1,
-		});
+		dtmfController['database'].addEntry('0123');
 
 		const newCallEvent: NewCallEvent = {
 			from: '0123',
@@ -113,7 +108,9 @@ describe('DTMF Controller', () => {
 	test('close database', async () => {
 		dtmfController['database'].closeDB();
 
-		expect(await dtmfController['database'].getEntries()).toBe(undefined);
+		expect(await dtmfController['database'].getEntriesForHighscore()).toBe(
+			undefined
+		);
 	});
 
 	test('start game with key', async () => {
@@ -273,7 +270,7 @@ describe('DTMF Controller', () => {
 		await dtmfController.onData({ dtmf: '#' } as unknown as DataEvent);
 
 		let winningEntry: DatabaseEntry = (
-			await dtmfController['database'].getEntries()
+			await dtmfController['database'].getEntriesForHighscore()
 		)[0];
 
 		expect(winningEntry).toEqual({

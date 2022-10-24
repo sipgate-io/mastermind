@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/ranking', async (req, res) => {
-	const entries = await DATABASE.getEntries();
+	const entries = await DATABASE.getEntriesForHighscore();
 
 	const anonymizedEntries = entries.map((entry) => ({
 		...entry,
@@ -57,7 +57,7 @@ app.get('/ranking/:number', async (req, res) => {
 		return res.status(400).send('Number does not match E.164 format');
 	}
 
-	const entries = await DATABASE.getEntries();
+	const entries = await DATABASE.getEntriesForHighscore();
 
 	const targetEntry = entries.find((x) => x.usersTel == tel);
 
@@ -73,12 +73,7 @@ app.get('/ranking/:number', async (req, res) => {
 
 app.post('/', (req, res) => {
 	for (let i = 0; i < 100; i++) {
-		DATABASE.addEntry({
-			usersTel: '+49157' + randomInt(1000000) + 1,
-			duration: randomInt(100),
-			tries: randomInt(10) + 1,
-			hasWon: randomInt(2),
-		});
+		DATABASE.addEntry('+49157' + randomInt(1000000) + 1);
 	}
 
 	res.status(201).send();

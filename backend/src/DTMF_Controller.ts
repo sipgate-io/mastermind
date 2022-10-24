@@ -98,6 +98,7 @@ export class DTMF_Controller {
 		this.isCalling = true;
 		this.isPlaying = false;
 
+		this.database.addEntry(this.usersTel);
 		sendMessage(buildMessageJson('newCall', ''));
 
 		clearTimeout(this.goodByeTimeout);
@@ -213,14 +214,14 @@ export class DTMF_Controller {
 	 */
 	private async finishGame() {
 		const result = this.mastermind.getGameResult();
-		this.database.addEntry({
+		this.database.updateEntry({
 			usersTel: this.usersTel,
 			duration: result.duration,
 			tries: result.tries,
 			hasWon: result.isWon ? 1 : 0,
 		});
 
-		const entries = await this.database.getEntries();
+		const entries = await this.database.getEntriesForHighscore();
 		let position = -1;
 
 		for (let i = 0; i < entries.length; i++) {
