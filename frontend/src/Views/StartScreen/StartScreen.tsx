@@ -43,15 +43,19 @@ const MastermindRanking = () => {
     );
   }
 
-  return (
-    <div className="startScreen_top startScreen_ranking">
-      <div className="startScreen_ranking_header">
-        <span>PLAYER</span>
-        <span>SCORE</span>
+  if (items.length > 0) {
+    return (
+      <div className="startScreen_top startScreen_ranking">
+        <div className="startScreen_ranking_header">
+          <span>PLAYER</span>
+          <span>SCORE</span>
+        </div>
+        {items}
       </div>
-      {items}
-    </div>
-  );
+    );
+  } else {
+    return <MastermindLogo/>  
+  }
 };
 
 const MastermindLogo = () => {

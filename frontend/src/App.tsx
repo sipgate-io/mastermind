@@ -10,6 +10,7 @@ import MastermindView, {
 import { GameFinished } from "./Views/GameFinished/GameFinished";
 import HighscoreView from "./Views/HighscoreView/HighscoreView";
 import { StartScreen } from "./Views/StartScreen/StartScreen";
+import { DisclaimerView } from "./Views/DisclaimerView/DisclaimerView";
 
 const client = new W3CWebSocket("ws://localhost:8000/");
 
@@ -83,6 +84,7 @@ function App() {
         element={<HighscoreView highlight={rowToHighlight} />}
       />
       <Route path="/gameFinished" element={<GameFinished />} />
+      <Route path="/disclaimer" element={<DisclaimerView />} />
 
       <Route
         path="*"
