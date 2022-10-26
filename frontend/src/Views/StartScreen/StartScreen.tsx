@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { getNumberToCall, getRankings } from "../../api";
 import "./StartScreen.css";
 
 const MastermindRankingRow = (props: {
@@ -21,15 +23,33 @@ const MastermindRankingRow = (props: {
 };
 
 const MastermindRanking = () => {
+  const [rankings, setRanking] = useState([] as { usersTel: string }[]);
+
+  useEffect(() => {
+    getRankings().then((ranking) => {
+      setRanking(ranking);
+    });
+  }, []);
+
+  let items = [];
+  for (let i = 0; i < rankings.length; i++) {
+    if (i >= 3) break;
+    items.push(
+      <MastermindRankingRow
+        first={i === 0}
+        number={rankings[i].usersTel}
+        score="-"
+      />
+    );
+  }
+
   return (
     <div className="startScreen_top startScreen_ranking">
       <div className="startScreen_ranking_header">
         <span>PLAYER</span>
         <span>SCORE</span>
       </div>
-      <MastermindRankingRow first score="99998" number="...8912" />
-      <MastermindRankingRow score="99961" number="...2839" />
-      <MastermindRankingRow score="99949" number="...3482" />
+      {items}
     </div>
   );
 };
@@ -44,6 +64,14 @@ const MastermindLogo = () => {
 };
 
 export const StartScreen = () => {
+  const [numberToCall, setNumberToCall] = useState("");
+
+  useEffect(() => {
+    getNumberToCall().then((numberResponse) => {
+      setNumberToCall(numberResponse);
+    });
+  }, []);
+
   return (
     <div className="startScreen">
       {/* <MastermindLogo /> */}
@@ -53,7 +81,7 @@ export const StartScreen = () => {
           <img src="/anrufen.png" />
           <div className="startScreen_img_number">
             <span>CALL TO PLAY</span>
-            <span>0203 928694650</span>
+            <span>{numberToCall}</span>
           </div>
         </div>
       </div>
