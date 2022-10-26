@@ -1,7 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import { millisToMinutesAndSeconds } from "../HighscoreView/HighscoreView";
 import "./MastermindView.css";
-import { BsAsterisk, BsHash } from "react-icons/bs";
 
 interface GameResult {
   isWon: boolean;
@@ -73,7 +72,12 @@ const MastermindRow = (props: {
 }) => {
   return (
     <>
-      <span className="grid-index">{props.index}</span>
+      <div className="grid-index">
+        <span>
+          {props.index < 10 ? "0" : ""}
+          {props.index}
+        </span>
+      </div>
       {props.numbers.map((num, index) => {
         return (
           <div
@@ -168,11 +172,13 @@ const MastermindView = ({
         {gameData ? (
           <div className="grid-message center-content">
             <div className="controls">
-              <div>
-                <BsAsterisk fontSize={18} />= Weiter
+              <div className="controls-star">
+                <span>*</span>
+                <span>= Weiter</span>
               </div>
               <div className="controls-hash">
-                <BsHash fontSize={24} />= Reihe bestätigen
+                <span>#</span>
+                <span>= Reihe bestätigen</span>
               </div>
             </div>
             {gameData.errorMessage ? (
