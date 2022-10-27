@@ -41,26 +41,34 @@ function App() {
       if (typeof message.data === "string") {
         const data = JSON.parse(message.data);
 
-        if (data.type === "gameData") {
-          setGameData(JSON.parse(data.message));
-        }
-        if (data.type === "newCall") {
-          window.location.href = "/consent";
-        }
-        if (data.type === "consentAccepted") {
-          setGameStart(Date.now());
-          navigate("/play");
-        }
-        if (data.type === "userHungUp") {
-          window.location.href = "/";
-        }
-        if (data.type === "gameFinished") {
-          navigate("/gameFinished", {
-            state: JSON.parse(data.message),
-          });
-          setRowToHightlight({
-            position: JSON.parse(data.message).position,
-          });
+        switch (data.type) {
+          case "gameData": {
+            setGameData(JSON.parse(data.message));
+            break;
+          }
+          case "newCall": {
+            navigate("/consent");
+            break;
+          }
+          case "consentAccepted": {
+            navigate("/rules");
+            break;
+          }
+          case "rulesAccepted": {
+            setGameStart(Date.now());
+            navigate("/play");
+            break;
+          }
+          case "userHungUp": {
+            navigate("/");
+            break;
+          }
+          case "gameFinished": {
+            navigate("/gameover", {
+              state: JSON.parse(data.message),
+            });
+            break;
+          }
         }
       }
     };

@@ -23,7 +23,7 @@ export const millisToMinutesAndSeconds = (millis: number) => {
 
 const HighscoreView = (props: {
   highlight?: {
-    position: number;
+    position?: number;
   };
 }) => {
   useEffect(() => {

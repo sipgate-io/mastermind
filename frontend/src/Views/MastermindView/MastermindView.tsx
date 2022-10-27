@@ -102,7 +102,7 @@ const MastermindView = ({
   gameData,
   gameStart,
 }: {
-  gameData?: MastermindViewProps;
+  gameData: MastermindViewProps | undefined;
   gameStart: number;
 }) => {
   let rows: ReactNode[] = [];
