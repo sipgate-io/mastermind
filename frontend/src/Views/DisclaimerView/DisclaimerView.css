@@ -1,39 +1,8 @@
-.disclaimerView {
-    padding: 2.8vh 6vh; 
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
-
-.disclaimerHeading {
-    font-size: 4vh;
-}
-
 .disclaimerText {
     font-family: ff-nexus-typewriter, sans-serif;
     font-style: normal;
     font-weight: 400;
-    line-height: 1.2vh;
+    line-height: 1.4vh;
     margin-top: 3vh;
-}
-
-.disclaimerFooter {
-    display: flex;
-    align-items: flex-end;
-    flex: 1;
-    padding-bottom: 8vh;
-}
-
-.disclaimerControl>div {
-    display: flex;
-    align-items: center;
-}
-
-.disclaimerControlStar{
-    font-size: 2vh;
-}
-
-.disclaimerControlStar>span:nth-child(1) {
-    font-size: 5vh;
-    margin-top: 2.5vh;
+    font-size: 0.8vh;
 }

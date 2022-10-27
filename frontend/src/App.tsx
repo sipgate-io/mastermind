@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { IMessageEvent, w3cwebsocket as W3CWebSocket } from "websocket";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import IntroductionView from "./Views/IntroductionView";
-import ConsentView from "./Views/ConsentView";
 import MastermindView, {
   MastermindViewProps,
 } from "./Views/MastermindView/MastermindView";
@@ -11,6 +9,7 @@ import { GameFinished } from "./Views/GameFinished/GameFinished";
 import HighscoreView from "./Views/HighscoreView/HighscoreView";
 import { StartScreen } from "./Views/StartScreen/StartScreen";
 import { DisclaimerView } from "./Views/DisclaimerView/DisclaimerView";
+import { RulesView } from "./Views/RulesView/RulesView";
 
 const client = new W3CWebSocket("ws://localhost:8000/");
 
@@ -74,7 +73,6 @@ function App() {
     <Routes>
       {/* <Route path="/" element={<IntroductionView />} /> */}
       <Route path="/" element={<StartScreen />} />
-      <Route path="/consent" element={<ConsentView />} />
       <Route
         path="/play"
         element={<MastermindView gameStart={gameStart} gameData={gameData} />}
@@ -85,6 +83,7 @@ function App() {
       />
       <Route path="/gameFinished" element={<GameFinished />} />
       <Route path="/disclaimer" element={<DisclaimerView />} />
+      <Route path="/regeln" element={<RulesView />} />
 
       <Route
         path="*"

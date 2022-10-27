@@ -1,9 +1,9 @@
+import { TextLayout } from "../../Components/TextLayout/TextLayout";
 import "./DisclaimerView.css";
 
 export const DisclaimerView = () => {
   return (
-    <div className="disclaimerView">
-      <div className="disclaimerHeading">Disclaimer</div>
+    <TextLayout title="Disclaimer" acceptText="Zustimmen">
       <div className="disclaimerText">
         § 1 Teilnahme
         <br />
@@ -86,14 +86,6 @@ export const DisclaimerView = () => {
         bleibt die Gültigkeit der übrigen Nutzungsbedingungen hiervon unberührt.
         <br />
       </div>
-      <div className="disclaimerFooter">
-        <div className="disclaimerControl">
-          <div className="disclaimerControlStar">
-            <span>*</span>
-            <span>= Zustimmen</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    </TextLayout>
   );
 };
