@@ -6,22 +6,28 @@ body {
     background-color: rgb(0, 0, 0);
 }
 
+.gridWrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
 .grid {
     display: grid;
-    grid-template-columns: 1fr repeat(4, 1fr) 1fr;
+    grid-template-columns: 2fr repeat(4, 1fr) 2fr;
     grid-template-rows: repeat(11, 1fr) auto;
-    margin: 0 10vw;
     justify-content: center;
-    gap: 2vw;
+    column-gap: 2.5vw;
+    row-gap: 2.9vw;
     margin-top: 2vh;
 }
 
 .grid-index {
     font-size: 3.3vh;
-    aspect-ratio: 1;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
+    margin-right: 1vw;
 }
 
 .grid-circle {
@@ -37,7 +43,8 @@ body {
     gap: 2vw;
     place-content: center;
     grid-template-columns: repeat(2, auto);
-    aspect-ratio: 1;
+    justify-content: flex-start;
+    margin-left: 1vw;
 }
 
 .grid-guess-feedback__circle {
@@ -64,7 +71,7 @@ body {
 .grid-time {
     grid-column: 2 / 7;
     align-self: center;
-    font-size: 4vh;
+    font-size: 4.235vh;
 }
 
 .grid-message {
@@ -74,7 +81,6 @@ body {
 }
 
 .controls {
-    margin: 24px 0px;
     color: rgb(255, 255, 255);
     display: flex;
 }
@@ -87,6 +93,7 @@ body {
 
 .controls-star, .controls-hash {
     font-size: 2vh;
+    line-height: 1vh;
 }
 
 .controls-star>span:nth-child(1) {
@@ -114,4 +121,26 @@ body {
     border-radius: 99px;
     font-size: 24px;
     font-weight: 500;
+}
+
+.gridMessage {
+    flex: 1;
+    margin-top: 2vh;
+    display: flex;
+    justify-content: center;
+}
+
+.gridMessageControls {
+    align-items: flex-start;
+}
+
+.gridMessageText {
+    background-color: #7D77AC;
+    font-family: ff-nexus-typewriter, sans-serif;
+    font-size: 1.9vh;
+    align-items: center;
+}
+
+.gridMessageText > span {
+    margin-top: -2.2vh;
 }

@@ -1,12 +1,10 @@
 import "./GameOverView.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-export const GameOverView = (props: {
-  hasWon: boolean;
-  rank: number;
-  score: number;
-}) => {
+export const GameOverView = () => {
+  const location = useLocation();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,20 +16,26 @@ export const GameOverView = (props: {
   return (
     <div className="gameOver">
       <div className="gameOverImage">
-        {props.hasWon && props.rank === 1 ? <img src="/first.png" /> : null}
+        {location.state.hasWon && location.state.position === 1 ? (
+          <img src="/first.png" />
+        ) : null}
       </div>
       <div className="gameOverTitle">
-        {props.hasWon ? (
+        {location.state.hasWon ? (
           <>
-            <span>{props.rank === 1 ? "NEW HIGHSCORE" : "YOUR SCORE"}</span>
-            <span>{props.score}</span>
+            <span>
+              {location.state.position === 1 ? "NEW HIGHSCORE" : "YOUR SCORE"}
+            </span>
+            <span>{location.state.score}</span>
           </>
         ) : (
           <span>GAME OVER</span>
         )}
       </div>
       <div className="gameOverRanking">
-        {props.hasWon ? <span>RANKING: {props.rank}</span> : null}
+        {location.state.hasWon ? (
+          <span>RANKING: {location.state.position}</span>
+        ) : null}
       </div>
     </div>
   );

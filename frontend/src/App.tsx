@@ -76,10 +76,7 @@ function App() {
       <Route path="/gameFinished" element={<GameFinished />} />
       <Route path="/disclaimer" element={<DisclaimerView />} />
       <Route path="/rules" element={<RulesView />} />
-      <Route
-        path="/gameOver"
-        element={<GameOverView hasWon={true} rank={1} score={123} />}
-      />
+      <Route path="/gameOver" element={<GameOverView />} />
 
       <Route
         path="*"

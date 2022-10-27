@@ -27,10 +27,10 @@ export interface MastermindViewProps {
   pointer: Pointer;
 }
 const millisToMinutesAndSeconds = (millis: number) => {
-  const minutes = Math.floor(millis / 60000);
-  const seconds = Math.floor((millis % 60000) / 1000);
+  const minutes = Math.floor(millis / 60000).toString();
+  const seconds = Math.floor((millis % 60000) / 1000).toString();
 
-  return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+  return minutes.padStart(2, "0") + ":" + seconds.padStart(2, "0");
 };
 
 const MastermindGuessFeedback = (props: {
@@ -165,7 +165,7 @@ const MastermindView = ({
   }, []);
 
   return (
-    <div>
+    <div className="gridWrapper">
       <div className="grid">
         <div />
         <div className="grid-time">
@@ -174,24 +174,25 @@ const MastermindView = ({
             : ""}
         </div>
         {rows}
-        {gameData ? (
-          <div className="grid-message center-content">
-            <div className="controls">
-              <div className="controls-star">
-                <span>*</span>
-                <span>= Weiter</span>
-              </div>
-              <div className="controls-hash">
-                <span>#</span>
-                <span>= Reihe bestätigen</span>
-              </div>
-            </div>
-            {gameData.errorMessage ? (
-              <div className="feedback">{gameData.errorMessage}</div>
-            ) : null}
-          </div>
-        ) : null}
       </div>
+      {gameData?.errorMessage ? (
+        <div className="gridMessage gridMessageText">
+          <span>{gameData.errorMessage}</span>
+        </div>
+      ) : (
+        <div className="gridMessage gridMessageControls">
+          <div className="controls">
+            <div className="controls-star">
+              <span>*</span>
+              <span>= Weiter</span>
+            </div>
+            <div className="controls-hash">
+              <span>#</span>
+              <span>= Reihe bestätigen</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
