@@ -34,7 +34,7 @@ function App() {
             break;
           }
           case "newCall": {
-            navigate("/consent");
+            navigate("/disclaimer");
             break;
           }
           case "consentAccepted": {

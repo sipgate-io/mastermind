@@ -30,6 +30,11 @@ export interface DatabaseEntry {
 	hasWon: number;
 }
 
+enum CallerState {
+	WAITING_CONSENT,
+	WAITING_RULES,
+}
+
 /**
  * A controller that accepts DTMF events and controls a mastermind game instance.
  */
@@ -37,6 +42,7 @@ export class DTMF_Controller {
 	// isPlaying is true, when the game is running and false while the audio introduction is played
 	private isPlaying;
 
+	private callerState: CallerState;
 	// isCalling is true, when a phone number is currently playing the game
 	// a new player will not be accepted while isCalling is true
 	private isCalling;
@@ -78,6 +84,7 @@ export class DTMF_Controller {
 			this.REMINDER_AUDIO_LENGTH + 5000
 		);
 		this.printLogo(numberToCall);
+		this.callerState = CallerState.WAITING_CONSENT;
 	}
 
 	/**
@@ -126,7 +133,7 @@ export class DTMF_Controller {
 
 		this.lastTime = Date.now() + this.WELCOME_AUDIO_LENGTH;
 		this.lastDTMFEvent = Date.now() + this.WELCOME_AUDIO_LENGTH;
-
+		this.callerState = CallerState.WAITING_CONSENT;
 		return WebhookResponse.gatherDTMF({
 			maxDigits: 1,
 			timeout: 900,
@@ -154,11 +161,16 @@ export class DTMF_Controller {
 		if (this.isPlaying) {
 			this.handleInput(data.dtmf);
 		} else {
-			if (data.dtmf === '1') {
-				this.mastermind = new Mastermind();
-				this.isPlaying = true;
+			if (data.dtmf === '*') {
+				if (this.callerState === CallerState.WAITING_CONSENT) {
+					this.callerState = CallerState.WAITING_RULES;
+					sendMessage(buildMessageJson('consentAccepted', ''));
+				} else if (this.callerState === CallerState.WAITING_RULES) {
+					this.mastermind = new Mastermind();
+					this.isPlaying = true;
 
-				sendMessage(buildMessageJson('consentAccepted', ''));
+					sendMessage(buildMessageJson('rulesAccepted', ''));
+				}
 			} else {
 				// collect more DTMF events until the playes presses a key
 				return WebhookResponse.gatherDTMF(this.gatherDTMFResponse());
