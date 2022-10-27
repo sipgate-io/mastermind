@@ -6,7 +6,6 @@ import MastermindView, {
   MastermindViewProps,
 } from "./Views/MastermindView/MastermindView";
 import { GameFinished } from "./Views/GameFinished/GameFinished";
-import HighscoreView from "./Views/HighscoreView/HighscoreView";
 import { StartScreen } from "./Views/StartScreen/StartScreen";
 import { DisclaimerView } from "./Views/DisclaimerView/DisclaimerView";
 import { RulesView } from "./Views/RulesView/RulesView";

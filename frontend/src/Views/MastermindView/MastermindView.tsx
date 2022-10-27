@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useState } from "react";
-import { millisToMinutesAndSeconds } from "../HighscoreView/HighscoreView";
 import "./MastermindView.css";
 
 interface GameResult {
@@ -27,6 +26,12 @@ export interface MastermindViewProps {
   errorMessage: string;
   pointer: Pointer;
 }
+const millisToMinutesAndSeconds = (millis: number) => {
+  const minutes = Math.floor(millis / 60000);
+  const seconds = Math.floor((millis % 60000) / 1000);
+
+  return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+};
 
 const MastermindGuessFeedback = (props: {
   correctNumber: number;
