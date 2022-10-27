@@ -9,5 +9,5 @@ cd ..
 
 cd frontend
 npx lint-staged
-npm run test
+#npm run test
 cd ..
