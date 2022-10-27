@@ -10,6 +10,7 @@ import HighscoreView from "./Views/HighscoreView/HighscoreView";
 import { StartScreen } from "./Views/StartScreen/StartScreen";
 import { DisclaimerView } from "./Views/DisclaimerView/DisclaimerView";
 import { RulesView } from "./Views/RulesView/RulesView";
+import { GameOverView } from "./Views/GameOverView/GameOverView";
 
 const client = new W3CWebSocket("ws://localhost:8000/");
 
@@ -84,6 +85,10 @@ function App() {
       <Route path="/gameFinished" element={<GameFinished />} />
       <Route path="/disclaimer" element={<DisclaimerView />} />
       <Route path="/regeln" element={<RulesView />} />
+      <Route
+        path="/gameOver"
+        element={<GameOverView hasWon={true} rank={1} score={123} />}
+      />
 
       <Route
         path="*"

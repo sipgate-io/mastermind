@@ -1,0 +1,32 @@
+.gameOver {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 2fr 1fr 2fr;
+    font-size: 3.8vh;
+}
+
+.gameOver > div {
+    display: flex;
+    justify-content: center;
+}
+
+.gameOverImage {
+    image-rendering: pixelated;
+    align-items: flex-end;
+    padding-bottom: 1vh;
+}
+
+.gameOverImage > img {
+    width: 27vw;
+}
+
+.gameOverTitle {
+    align-items: center;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.gameOverRanking {
+    align-items: flex-end;
+    padding-bottom: 4vh;
+}
