@@ -1,10 +1,20 @@
 import "./GameOverView.css";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export const GameOverView = (props: {
   hasWon: boolean;
   rank: number;
   score: number;
 }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setTimeout(() => {
+      navigate("/");
+    }, 8000);
+  }, []);
+
   return (
     <div className="gameOver">
       <div className="gameOverImage">
