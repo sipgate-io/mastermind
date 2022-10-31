@@ -4,11 +4,13 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .startScreen_top {
-    flex: 1;
-    margin-bottom: 7vh;
+    margin-top: 19vh;
+    margin-bottom: 2vh;
 }
 
 .startScreen_logo {
@@ -20,9 +22,17 @@
     line-height: 6.8vh;
 }
 
+.startScreen_costInfo {
+    width: 65%;
+    text-align: center;
+    font-family: ff-nexus-typewriter, sans-serif;
+    font-size: 1.3vh;
+}
+
 .startScreen_img {
     display: flex;
     justify-content: center;
+    margin-top: 6vh;
 }
 
 .startScreen_img > div {

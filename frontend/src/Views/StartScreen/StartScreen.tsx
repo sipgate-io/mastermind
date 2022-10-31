@@ -80,6 +80,10 @@ export const StartScreen = () => {
     <div className="startScreen">
       {/* <MastermindLogo /> */}
       <MastermindRanking />
+      <div className="startScreen_costInfo">
+        Der Anruf ist mit Kosten verbunden, die von deinem Provider abhängig
+        sind.
+      </div>
       <div className="startScreen_img">
         <div>
           <img src="/anrufen.png" />
