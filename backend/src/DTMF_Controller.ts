@@ -106,21 +106,21 @@ export class DTMF_Controller {
 			return WebhookResponse.gatherDTMF({
 				maxDigits: 1,
 				timeout: 900,
-				announcement: PING_AUDIO_URL,
+				announcement: ALREADY_IN_GAME_AUDIO_URL,
 			});
 		}
 		if (newCallEvent.from === 'anonymous') {
 			return WebhookResponse.gatherDTMF({
 				maxDigits: 1,
 				timeout: 900,
-				announcement: PING_AUDIO_URL,
+				announcement: SUPPRESSED_NUMBER_AUDIO_URL,
 			});
 		}
 		if (await this.callerHasPlayed(newCallEvent.from)) {
 			return WebhookResponse.gatherDTMF({
 				maxDigits: 1,
 				timeout: 900,
-				announcement: PING_AUDIO_URL,
+				announcement: CANT_PLAY_AGAIN_AUDIO_URL,
 			});
 		}
 
