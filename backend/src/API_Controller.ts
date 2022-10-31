@@ -104,5 +104,5 @@ function sortEntries(a: DatabaseEntry, b: DatabaseEntry) {
 }
 function anonymizePhone(number: string) {
 	let publicDigits = number.substring(number.length - 4);
-	return `+xx xxxx xxxx${publicDigits}`;
+	return `...${publicDigits}`;
 }

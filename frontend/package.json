@@ -6,8 +6,6 @@
     "start": "react-scripts start >/dev/null & (cd ../backend && (npm run start & node build/API_Controller.js >/dev/null))",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
-    "test:frontend": "react-scripts test --watchAll=false App.test.tsx",
-    "test:integration": "react-scripts test --watchAll=false integration.test.tsx",
     "eject": "react-scripts eject",
     "preinstall": "git config core.hooksPath .git-hooks"
   },
@@ -22,7 +20,6 @@
     "react": "^18.2.0",
     "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.6.0",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "typescript": "^4.8.4",

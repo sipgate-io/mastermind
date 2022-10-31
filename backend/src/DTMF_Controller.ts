@@ -16,9 +16,15 @@ import { GatherOptions } from 'sipgateio/dist/webhook';
 import { buildMessageJson, sendMessage } from './Websocket_Controller';
 
 const WELCOME_AUDIO_URL =
-	'https://raw.githubusercontent.com/sipgate-io/mastermind/master/backend/assets/welcome_message.wav';
+	'https://raw.githubusercontent.com/sipgate-io/mastermind/main/backend/assets/welcomeMessage.wav';
+const ALREADY_IN_GAME_AUDIO_URL =
+	'https://raw.githubusercontent.com/sipgate-io/mastermind/main/backend/assets/alreadyInGame.wav';
+const CANT_PLAY_AGAIN_AUDIO_URL =
+	'https://raw.githubusercontent.com/sipgate-io/mastermind/main/backend/assets/cantPlayAgain.wav';
+const SUPPRESSED_NUMBER_AUDIO_URL =
+	'https://raw.githubusercontent.com/sipgate-io/mastermind/main/backend/assets/suppressedNumber.wav';
 const PING_AUDIO_URL =
-	'https://raw.githubusercontent.com/sipgate-io/mastermind/master/backend/assets/ping.wav';
+	'https://raw.githubusercontent.com/sipgate-io/mastermind/main/backend/assets/ping.wav';
 
 /**
  * Represents an entry in the database.
@@ -28,6 +34,12 @@ export interface DatabaseEntry {
 	duration: number;
 	tries: number;
 	hasWon: number;
+	score: number;
+}
+
+enum CallerState {
+	WAITING_CONSENT,
+	WAITING_RULES,
 }
 
 /**
@@ -37,6 +49,7 @@ export class DTMF_Controller {
 	// isPlaying is true, when the game is running and false while the audio introduction is played
 	private isPlaying;
 
+	private callerState: CallerState;
 	// isCalling is true, when a phone number is currently playing the game
 	// a new player will not be accepted while isCalling is true
 	private isCalling;
@@ -78,6 +91,7 @@ export class DTMF_Controller {
 			this.REMINDER_AUDIO_LENGTH + 5000
 		);
 		this.printLogo(numberToCall);
+		this.callerState = CallerState.WAITING_CONSENT;
 	}
 
 	/**
@@ -126,7 +140,7 @@ export class DTMF_Controller {
 
 		this.lastTime = Date.now() + this.WELCOME_AUDIO_LENGTH;
 		this.lastDTMFEvent = Date.now() + this.WELCOME_AUDIO_LENGTH;
-
+		this.callerState = CallerState.WAITING_CONSENT;
 		return WebhookResponse.gatherDTMF({
 			maxDigits: 1,
 			timeout: 900,
@@ -154,11 +168,16 @@ export class DTMF_Controller {
 		if (this.isPlaying) {
 			this.handleInput(data.dtmf);
 		} else {
-			if (data.dtmf === '1') {
-				this.mastermind = new Mastermind();
-				this.isPlaying = true;
+			if (data.dtmf === '*') {
+				if (this.callerState === CallerState.WAITING_CONSENT) {
+					this.callerState = CallerState.WAITING_RULES;
+					sendMessage(buildMessageJson('consentAccepted', ''));
+				} else if (this.callerState === CallerState.WAITING_RULES) {
+					this.mastermind = new Mastermind();
+					this.isPlaying = true;
 
-				sendMessage(buildMessageJson('consentAccepted', ''));
+					sendMessage(buildMessageJson('rulesAccepted', ''));
+				}
 			} else {
 				// collect more DTMF events until the playes presses a key
 				return WebhookResponse.gatherDTMF(this.gatherDTMFResponse());
@@ -239,6 +258,7 @@ export class DTMF_Controller {
 			duration: result.duration,
 			tries: result.tries,
 			hasWon: result.isWon ? 1 : 0,
+			score: result.score,
 		});
 
 		const entries = await this.database.getEntriesForHighscore();
@@ -259,6 +279,7 @@ export class DTMF_Controller {
 					duration: result.duration,
 					hasWon: result.isWon,
 					position: position,
+					score: result.score,
 				})
 			)
 		);

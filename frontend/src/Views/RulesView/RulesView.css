@@ -1,0 +1,42 @@
+.rulesText {
+    font-family: ff-nexus-typewriter, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-top: 3vh;
+    font-size: 1.95vh;
+}
+
+.rulesList {
+    display: flex;
+    flex-direction: column;
+    margin-top: 4vh;
+    margin-bottom: 4vh;
+    gap: 3vh;
+}
+
+.rulesListItem {
+    display: flex;
+}
+
+.rulesListItem > div:nth-child(1) {
+    height: 4.3vw;
+    aspect-ratio: 1;
+    margin-right: 4vw;
+}
+
+.rulesListItem > div:nth-child(2) {
+    padding: 0.1vh;
+}
+
+.rulesListItemGreen {
+    background-color: #52A374;
+}
+
+.rulesListItemGrey {
+    background-color: #636363;
+}
+
+.rulesListItemWhite {
+    background-color: #ffffff;
+}

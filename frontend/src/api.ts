@@ -6,6 +6,7 @@ export type Ranking = {
   usersTel: string;
   duration: number;
   tries: number;
+  score: number;
   hasWon: number;
   key: number;
   isHighlighted?: boolean;

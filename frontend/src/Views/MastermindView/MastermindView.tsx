@@ -1,7 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import { millisToMinutesAndSeconds } from "../HighscoreView/HighscoreView";
 import "./MastermindView.css";
-import { BsAsterisk, BsHash } from "react-icons/bs";
 
 interface GameResult {
   isWon: boolean;
@@ -26,8 +24,15 @@ export interface MastermindViewProps {
   pastGuesses: Array<MastermindRow>;
   gameResult: GameResult;
   errorMessage: string;
+  errorMessageTimestamp: number;
   pointer: Pointer;
 }
+const millisToMinutesAndSeconds = (millis: number) => {
+  const minutes = Math.floor(millis / 60000).toString();
+  const seconds = Math.floor((millis % 60000) / 1000).toString();
+
+  return minutes.padStart(2, "0") + ":" + seconds.padStart(2, "0");
+};
 
 const MastermindGuessFeedback = (props: {
   correctNumber: number;
@@ -73,7 +78,12 @@ const MastermindRow = (props: {
 }) => {
   return (
     <>
-      <span className="grid-index">{props.index}</span>
+      <div className="grid-index">
+        <span>
+          {props.index < 10 ? "0" : ""}
+          {props.index}
+        </span>
+      </div>
       {props.numbers.map((num, index) => {
         return (
           <div
@@ -98,7 +108,7 @@ const MastermindView = ({
   gameData,
   gameStart,
 }: {
-  gameData?: MastermindViewProps;
+  gameData: MastermindViewProps | undefined;
   gameStart: number;
 }) => {
   let rows: ReactNode[] = [];
@@ -156,7 +166,7 @@ const MastermindView = ({
   }, []);
 
   return (
-    <div>
+    <div className="gridWrapper">
       <div className="grid">
         <div />
         <div className="grid-time">
@@ -165,22 +175,26 @@ const MastermindView = ({
             : ""}
         </div>
         {rows}
-        {gameData ? (
-          <div className="grid-message center-content">
-            <div className="controls">
-              <div>
-                <BsAsterisk fontSize={18} />= Weiter
-              </div>
-              <div className="controls-hash">
-                <BsHash fontSize={24} />= Reihe bestätigen
-              </div>
-            </div>
-            {gameData.errorMessage ? (
-              <div className="feedback">{gameData.errorMessage}</div>
-            ) : null}
-          </div>
-        ) : null}
       </div>
+      {gameData?.errorMessage &&
+      Date.now() - gameData.errorMessageTimestamp < 3000 ? (
+        <div className="gridMessage gridMessageText">
+          <span>{gameData.errorMessage}</span>
+        </div>
+      ) : (
+        <div className="gridMessage gridMessageControls">
+          <div className="controls">
+            <div className="controls-star">
+              <span>*</span>
+              <span>= Weiter</span>
+            </div>
+            <div className="controls-hash">
+              <span>#</span>
+              <span>= Reihe bestätigen</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

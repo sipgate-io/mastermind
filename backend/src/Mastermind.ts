@@ -33,6 +33,7 @@ interface GameResult {
 	isWon: boolean;
 	tries: number;
 	duration: number;
+	score: number;
 }
 
 export interface Pointer {
@@ -54,7 +55,12 @@ export class Mastermind {
 
 	private pastGuesses: MastermindRow[] = [];
 
-	private gameResult: GameResult = { isWon: false, tries: 0, duration: 0 };
+	private gameResult: GameResult = {
+		isWon: false,
+		tries: 0,
+		duration: 0,
+		score: 0,
+	};
 	//goal describes the numbers you need to guess and will be randomized
 	private goal: MastermindGuess = [1, 1, 1, 1];
 
@@ -69,6 +75,7 @@ export class Mastermind {
 	private gameStart: number;
 
 	private errorMessage: String = '';
+	private errorMessageTimestamp: number = 0;
 
 	constructor() {
 		this.isFinished = false;
@@ -84,9 +91,9 @@ export class Mastermind {
 			}
 			this.currentRow[this.pointer.column] = digit;
 			this.movePointerColumn();
-			this.errorMessage = '';
+			this.setError('');
 		} else {
-			this.errorMessage = ERR_INVALID_DIGIT;
+			this.setError(ERR_INVALID_DIGIT);
 		}
 	}
 
@@ -124,7 +131,7 @@ export class Mastermind {
 	submit() {
 		if (this.isGameFinished()) return;
 		if (this.isValidInput()) {
-			this.errorMessage = '';
+			this.setError('');
 			this.pointer.column = 0;
 
 			// der Input ist gültig
@@ -146,7 +153,7 @@ export class Mastermind {
 			}
 			this.currentRow = [undefined, undefined, undefined, undefined];
 		} else {
-			this.errorMessage = ERR_FILL_FULL;
+			this.setError(ERR_FILL_FULL);
 		}
 	}
 
@@ -165,11 +172,24 @@ export class Mastermind {
 
 	private finishGame(hasWon: boolean) {
 		this.isFinished = true;
+		const duration = Date.now() - this.gameStart;
+		const tries = this.pointer.row + 1;
 		this.gameResult = {
 			isWon: hasWon,
-			duration: Date.now() - this.gameStart,
-			tries: this.pointer.row + 1,
+			duration: duration,
+			tries: tries,
+			score: this.calculateScore(duration, tries),
 		};
+	}
+
+	private calculateScore(duration: number, tries: number) {
+		const scale = 150000;
+		const slope = 30000;
+
+		const mapTime = (x: number) => scale * Math.log(slope / (x + slope) + 1);
+		const mapTries = (x: number) => (22 + x) / (10 * x) + 0.8;
+
+		return Math.floor(mapTries(tries) * mapTime(duration));
 	}
 
 	getGameResult() {
@@ -237,8 +257,14 @@ export class Mastermind {
 			pastGuesses: this.pastGuesses,
 			gameResult: this.gameResult,
 			errorMessage: this.errorMessage,
+			errorMessageTimestamp: this.errorMessageTimestamp,
 			pointer: this.pointer,
 		};
+	}
+
+	private setError(message: string) {
+		this.errorMessage = message;
+		this.errorMessageTimestamp = Date.now();
 	}
 
 	private printCurrentRow() {

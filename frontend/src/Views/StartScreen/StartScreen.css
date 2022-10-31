@@ -1,0 +1,105 @@
+.startScreen {
+    background-color: rgb(0, 0, 0);
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.startScreen_top {
+    margin-top: 19vh;
+    margin-bottom: 2vh;
+}
+
+.startScreen_logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: column;
+    font-size: 4.8vh;
+    line-height: 6.8vh;
+}
+
+.startScreen_costInfo {
+    width: 65%;
+    text-align: center;
+    font-family: ff-nexus-typewriter, sans-serif;
+    font-size: 1.3vh;
+}
+
+.startScreen_img {
+    display: flex;
+    justify-content: center;
+    margin-top: 6vh;
+}
+
+.startScreen_img > div {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.startScreen_img > div > img {
+    width: 80%;
+}
+
+.startScreen_img_number {
+    position: absolute;
+    background-color: rgb(0, 0, 0);
+    top: 54%;
+    width: 42%;
+    height: 16%;
+    font-size: 2vh;
+    line-height: 3vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.startScreen_ranking {
+    width: 100%;
+    padding: 0 14%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    font-size: 4vh;
+    margin-top: 4vh;
+}
+
+.startScreen_ranking_header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1vh;
+}
+
+.startScreen_ranking_row {
+    width: 100%;
+    background-color: white;
+    margin-top: 1vh;
+    font-size: 2vh;
+    padding: 1.8vh;
+    box-sizing: border-box;
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.startScreen_ranking_row > div {
+    display: flex;
+    align-items: center;
+}
+
+.startScreen_ranking_row > img {
+    position: absolute;
+    height: 80%;
+}
+
+.startScreen_ranking_row_first {
+    margin-left: 5vh;
+}
