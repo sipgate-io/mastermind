@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { getNumberToCall, getRankings } from "../../api";
+import { getNumberToCall, getRankings, Ranking } from "../../api";
 import "./StartScreen.css";
 
 const MastermindRankingRow = (props: {
   number: string;
-  score: string;
+  score: number;
   first?: boolean;
 }) => {
   return (
@@ -23,7 +23,7 @@ const MastermindRankingRow = (props: {
 };
 
 const MastermindRanking = () => {
-  const [rankings, setRanking] = useState([] as { usersTel: string }[]);
+  const [rankings, setRanking] = useState([] as Ranking[]);
 
   useEffect(() => {
     getRankings().then((ranking) => {
@@ -38,7 +38,7 @@ const MastermindRanking = () => {
       <MastermindRankingRow
         first={i === 0}
         number={rankings[i].usersTel}
-        score="-"
+        score={rankings[i].score}
       />
     );
   }
@@ -54,7 +54,7 @@ const MastermindRanking = () => {
       </div>
     );
   } else {
-    return <MastermindLogo/>  
+    return <MastermindLogo />;
   }
 };
 

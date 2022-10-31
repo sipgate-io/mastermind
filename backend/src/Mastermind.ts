@@ -33,6 +33,7 @@ interface GameResult {
 	isWon: boolean;
 	tries: number;
 	duration: number;
+	score: number;
 }
 
 export interface Pointer {
@@ -54,7 +55,12 @@ export class Mastermind {
 
 	private pastGuesses: MastermindRow[] = [];
 
-	private gameResult: GameResult = { isWon: false, tries: 0, duration: 0 };
+	private gameResult: GameResult = {
+		isWon: false,
+		tries: 0,
+		duration: 0,
+		score: 0,
+	};
 	//goal describes the numbers you need to guess and will be randomized
 	private goal: MastermindGuess = [1, 1, 1, 1];
 
@@ -166,11 +172,24 @@ export class Mastermind {
 
 	private finishGame(hasWon: boolean) {
 		this.isFinished = true;
+		const duration = Date.now() - this.gameStart;
+		const tries = this.pointer.row + 1;
 		this.gameResult = {
 			isWon: hasWon,
-			duration: Date.now() - this.gameStart,
-			tries: this.pointer.row + 1,
+			duration: duration,
+			tries: tries,
+			score: this.calculateScore(duration, tries),
 		};
+	}
+
+	private calculateScore(duration: number, tries: number) {
+		const scale = 150000;
+		const slope = 30000;
+
+		const mapTime = (x: number) => scale * Math.log(slope / (x + slope) + 1);
+		const mapTries = (x: number) => (22 + x) / (10 * x) + 0.8;
+
+		return Math.floor(mapTries(tries) * mapTime(duration));
 	}
 
 	getGameResult() {

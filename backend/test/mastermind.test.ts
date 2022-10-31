@@ -296,6 +296,7 @@ describe('DTMF Controller', () => {
 		expect(winningEntry).toEqual({
 			usersTel: '0123',
 			duration: winningEntry.duration,
+			score: 322305,
 			tries: 1,
 			hasWon: 1,
 		});

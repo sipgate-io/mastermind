@@ -28,6 +28,7 @@ export interface DatabaseEntry {
 	duration: number;
 	tries: number;
 	hasWon: number;
+	score: number;
 }
 
 enum CallerState {
@@ -251,6 +252,7 @@ export class DTMF_Controller {
 			duration: result.duration,
 			tries: result.tries,
 			hasWon: result.isWon ? 1 : 0,
+			score: result.score,
 		});
 
 		const entries = await this.database.getEntriesForHighscore();
@@ -271,6 +273,7 @@ export class DTMF_Controller {
 					duration: result.duration,
 					hasWon: result.isWon,
 					position: position,
+					score: result.score,
 				})
 			)
 		);

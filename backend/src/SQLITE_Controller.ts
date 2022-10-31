@@ -21,7 +21,7 @@ export class Database {
 	private init() {
 		this.db.serialize(() => {
 			this.db.run(
-				'CREATE TABLE IF NOT EXISTS games (usersTel Text, duration Integer, tries Integer, hasWon Integer)'
+				'CREATE TABLE IF NOT EXISTS games (usersTel Text, duration Integer, tries Integer, hasWon Integer, score Integer)'
 			);
 		});
 	}
@@ -32,7 +32,7 @@ export class Database {
 	getEntriesForHighscore() {
 		return new Promise<DatabaseEntry[]>((resolve) => {
 			this.db.all(
-				'SELECT * FROM games WHERE hasWon = 1 ORDER BY tries ASC, duration ASC',
+				'SELECT * FROM games WHERE hasWon = 1 ORDER BY score DESC',
 				(err, rows) => {
 					resolve(rows);
 				}
@@ -62,9 +62,15 @@ export class Database {
 
 	updateEntry(entry: DatabaseEntry) {
 		const stmt = this.db.prepare(
-			'UPDATE games SET duration = (?), tries = (?), hasWon= (?) WHERE usersTel = (?)'
+			'UPDATE games SET duration = (?), tries = (?), hasWon= (?), score= (?) WHERE usersTel = (?)'
 		);
-		stmt.run(entry.duration, entry.tries, entry.hasWon, entry.usersTel);
+		stmt.run(
+			entry.duration,
+			entry.tries,
+			entry.hasWon,
+			entry.score,
+			entry.usersTel
+		);
 		stmt.finalize();
 	}
 
