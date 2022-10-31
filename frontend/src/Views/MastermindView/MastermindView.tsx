@@ -24,6 +24,7 @@ export interface MastermindViewProps {
   pastGuesses: Array<MastermindRow>;
   gameResult: GameResult;
   errorMessage: string;
+  errorMessageTimestamp: number;
   pointer: Pointer;
 }
 const millisToMinutesAndSeconds = (millis: number) => {
@@ -175,7 +176,8 @@ const MastermindView = ({
         </div>
         {rows}
       </div>
-      {gameData?.errorMessage ? (
+      {gameData?.errorMessage &&
+      Date.now() - gameData.errorMessageTimestamp < 3000 ? (
         <div className="gridMessage gridMessageText">
           <span>{gameData.errorMessage}</span>
         </div>

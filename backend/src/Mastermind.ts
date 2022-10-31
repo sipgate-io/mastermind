@@ -69,6 +69,7 @@ export class Mastermind {
 	private gameStart: number;
 
 	private errorMessage: String = '';
+	private errorMessageTimestamp: number = 0;
 
 	constructor() {
 		this.isFinished = false;
@@ -84,9 +85,9 @@ export class Mastermind {
 			}
 			this.currentRow[this.pointer.column] = digit;
 			this.movePointerColumn();
-			this.errorMessage = '';
+			this.setError('');
 		} else {
-			this.errorMessage = ERR_INVALID_DIGIT;
+			this.setError(ERR_INVALID_DIGIT);
 		}
 	}
 
@@ -124,7 +125,7 @@ export class Mastermind {
 	submit() {
 		if (this.isGameFinished()) return;
 		if (this.isValidInput()) {
-			this.errorMessage = '';
+			this.setError('');
 			this.pointer.column = 0;
 
 			// der Input ist gültig
@@ -146,7 +147,7 @@ export class Mastermind {
 			}
 			this.currentRow = [undefined, undefined, undefined, undefined];
 		} else {
-			this.errorMessage = ERR_FILL_FULL;
+			this.setError(ERR_FILL_FULL);
 		}
 	}
 
@@ -237,8 +238,14 @@ export class Mastermind {
 			pastGuesses: this.pastGuesses,
 			gameResult: this.gameResult,
 			errorMessage: this.errorMessage,
+			errorMessageTimestamp: this.errorMessageTimestamp,
 			pointer: this.pointer,
 		};
+	}
+
+	private setError(message: string) {
+		this.errorMessage = message;
+		this.errorMessageTimestamp = Date.now();
 	}
 
 	private printCurrentRow() {
