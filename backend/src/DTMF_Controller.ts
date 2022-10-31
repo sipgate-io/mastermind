@@ -16,9 +16,15 @@ import { GatherOptions } from 'sipgateio/dist/webhook';
 import { buildMessageJson, sendMessage } from './Websocket_Controller';
 
 const WELCOME_AUDIO_URL =
-	'https://raw.githubusercontent.com/sipgate-io/mastermind/master/backend/assets/welcome_message.wav';
+	'https://raw.githubusercontent.com/sipgate-io/mastermind/main/backend/assets/welcomeMessage.wav';
+const ALREADY_IN_GAME_AUDIO_URL =
+	'https://raw.githubusercontent.com/sipgate-io/mastermind/main/backend/assets/alreadyInGame.wav';
+const CANT_PLAY_AGAIN_AUDIO_URL =
+	'https://raw.githubusercontent.com/sipgate-io/mastermind/main/backend/assets/cantPlayAgain.wav';
+const SUPPRESSED_NUMBER_AUDIO_URL =
+	'https://raw.githubusercontent.com/sipgate-io/mastermind/main/backend/assets/suppressedNumber.wav';
 const PING_AUDIO_URL =
-	'https://raw.githubusercontent.com/sipgate-io/mastermind/master/backend/assets/ping.wav';
+	'https://raw.githubusercontent.com/sipgate-io/mastermind/main/backend/assets/ping.wav';
 
 /**
  * Represents an entry in the database.
