@@ -127,21 +127,6 @@ describe('DTMF Controller', () => {
 		);
 	});
 
-	test('start game with key', async () => {
-		const newCallEvent: NewCallEvent = {
-			from: '0123',
-		} as NewCallEvent;
-
-		const newOnDataEvent: DataEvent = {
-			dtmf: '1',
-		} as DataEvent;
-
-		await dtmfController.newCall(newCallEvent);
-		await dtmfController.onData(newOnDataEvent);
-		await dtmfController.onData(newOnDataEvent);
-		expect(consoleLogMock).toBeCalledWith(SHORT_EXPLANATION_TEXT);
-	});
-
 	test('handles full row', async () => {
 		const newCallEvent: NewCallEvent = {
 			from: '0123',

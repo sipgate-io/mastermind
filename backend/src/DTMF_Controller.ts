@@ -167,6 +167,18 @@ export class DTMF_Controller {
 
 		if (this.isPlaying) {
 			this.handleInput(data.dtmf);
+			sendMessage(
+				buildMessageJson(
+					'gameData',
+					JSON.stringify(this.mastermind.printMastermind())
+				)
+			);
+
+			// save the result and hang up the call when the game is finished
+			if (this.mastermind.isGameFinished()) {
+				await this.finishGame();
+				return WebhookResponse.hangUpCall();
+			}
 		} else {
 			if (data.dtmf === '1') {
 				if (this.callerState === CallerState.WAITING_CONSENT) {
@@ -176,33 +188,19 @@ export class DTMF_Controller {
 					this.mastermind = new Mastermind();
 					this.isPlaying = true;
 
+					sendMessage(
+						buildMessageJson(
+							'gameData',
+							JSON.stringify(this.mastermind.printMastermind())
+						)
+					);
 					sendMessage(buildMessageJson('rulesAccepted', ''));
 				}
-			} else {
-				// collect more DTMF events until the playes presses a key
-				return WebhookResponse.gatherDTMF(this.gatherDTMFResponse());
 			}
 		}
 
-		console.clear();
-		console.log(CALLING_NUMBER(this.usersTel));
-		console.log(SHORT_EXPLANATION_TEXT);
-
-		sendMessage(
-			buildMessageJson(
-				'gameData',
-				JSON.stringify(this.mastermind.printMastermind())
-			)
-		);
-
-		// save the result and hang up the call when the game is finished
-		if (this.mastermind.isGameFinished()) {
-			await this.finishGame();
-			return WebhookResponse.hangUpCall();
-		} else {
-			// if the game isn't finished, we need to listen for more DTMF events
-			return WebhookResponse.gatherDTMF(this.gatherDTMFResponse());
-		}
+		// if the game isn't finished, we need to listen for more DTMF events
+		return WebhookResponse.gatherDTMF(this.gatherDTMFResponse());
 	}
 
 	/**
