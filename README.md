@@ -41,3 +41,17 @@ These two pieces of information will help you to improve your next guess.
 You will get more points, the fewer guesses you need and the faster you complete the game.
 
 The two red arrows indicate in which row and column you are currently located. Press a digit from 1 to 6 to enter it at the present location. By clicking \* the arrow moves to the right until it wraps around to the first column. You can confirm your input with the # button.
+
+## Common Issues
+
+### Can't start because `TypeError: Cannot read properties of undefined (reading 'body')`
+This issue occurs, when another ngrok instance is running. To fix this, you need to make sure that no other instance of Mastermind is running, by killing all processes on the ports 3000, 3001 and 3002. Enter the command `sudo lsof -iTCP -sTCP:LISTEN` and look for programs that listen on the ports listed above in the `NAME` column. Kill a process by its PID using `sudo kill <PID>`.
+
+### Allow a player to call a second time
+
+Since every players phone number is listed in a database, you need to remove the corresponding entry from the database to allow a caller to play again.
+
+1. Open the databse (for example with SQLitebrowser)
+2. Select the `games` table
+3. Find and delete the row that corresponds to the phone number 
+4. Write the changes you've made
