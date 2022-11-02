@@ -168,7 +168,7 @@ export class DTMF_Controller {
 		if (this.isPlaying) {
 			this.handleInput(data.dtmf);
 		} else {
-			if (data.dtmf === '*') {
+			if (data.dtmf === '1') {
 				if (this.callerState === CallerState.WAITING_CONSENT) {
 					this.callerState = CallerState.WAITING_RULES;
 					sendMessage(buildMessageJson('consentAccepted', ''));

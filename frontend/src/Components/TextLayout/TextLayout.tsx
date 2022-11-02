@@ -13,7 +13,7 @@ export const TextLayout = (props: {
       <div className="textLayoutFooter">
         <div className="textLayoutControl">
           <div className="textLayoutControlStar">
-            <span>*</span>
+            <span>1</span>
             <span>= {props.acceptText}</span>
           </div>
         </div>

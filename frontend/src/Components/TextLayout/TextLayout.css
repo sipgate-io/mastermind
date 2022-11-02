@@ -36,6 +36,6 @@
 }
 
 .textLayoutControlStar>span:nth-child(1) {
-    font-size: 5vh;
-    margin-top: 2.5vh;
+    font-size: 4vh;
+    margin-top: .5vh;
 }
