@@ -133,7 +133,7 @@ describe('DTMF Controller', () => {
 		} as NewCallEvent;
 
 		const newOnDataEvent: DataEvent = {
-			dtmf: '*',
+			dtmf: '1',
 		} as DataEvent;
 
 		await dtmfController.newCall(newCallEvent);
@@ -150,8 +150,8 @@ describe('DTMF Controller', () => {
 		const input = [1, 2, 3, 4];
 
 		await dtmfController.newCall(newCallEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
 
 		for (const val of input) {
 			await dtmfController.onData({
@@ -171,8 +171,8 @@ describe('DTMF Controller', () => {
 		const output = [1, undefined, 3, 2];
 
 		await dtmfController.newCall(newCallEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
 
 		for (const val of input) {
 			await dtmfController.onData({
@@ -189,8 +189,8 @@ describe('DTMF Controller', () => {
 		} as NewCallEvent;
 
 		await dtmfController.newCall(newCallEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
 
 		expect(dtmfController['mastermind']['pointer'].column).toBe(0);
 
@@ -209,8 +209,8 @@ describe('DTMF Controller', () => {
 		const input: MastermindGuess = [1, 2, 4, 5];
 
 		await dtmfController.newCall(newCallEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
 
 		dtmfController['mastermind']['goal'] = goal;
 
@@ -276,8 +276,8 @@ describe('DTMF Controller', () => {
 		const input: MastermindGuess = [1, 2, 3, 4];
 
 		await dtmfController.newCall(newCallEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
 
 		dtmfController['mastermind']['goal'] = goal;
 
@@ -313,8 +313,8 @@ describe('DTMF Controller', () => {
 		const output = [4, 1, undefined, undefined];
 
 		await dtmfController.newCall(newCallEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
 
 		for (const val of input) {
 			await dtmfController.onData({
@@ -335,8 +335,8 @@ describe('DTMF Controller', () => {
 		clearInterval(dtmfController['hangUpDetectionInterval']);
 
 		await dtmfController.newCall(newCallEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
 
 		dtmfController['hangUpDetectionInterval'] =
 			dtmfController['hangUpInterval'](1500);
@@ -356,8 +356,8 @@ describe('DTMF Controller', () => {
 		const goal: MastermindGuess = [4, 3, 2, 1];
 
 		await dtmfController.newCall(newCallEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
 
 		for (let i = 0; i < 10; i++) {
 			for (const val of input) {
@@ -377,8 +377,8 @@ describe('DTMF Controller', () => {
 		} as NewCallEvent;
 
 		await dtmfController.newCall(newCallEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
-		await dtmfController.onData({ dtmf: '*' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
+		await dtmfController.onData({ dtmf: '1' } as unknown as DataEvent);
 
 		await dtmfController.onData({ dtmf: '4' } as unknown as DataEvent);
 
